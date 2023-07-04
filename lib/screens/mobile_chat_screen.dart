@@ -4,15 +4,16 @@ import 'package:whats_chat_app/core/widgets/chat_list.dart';
 import 'package:whats_chat_app/info.dart';
 
 class MobileChatScreen extends StatelessWidget {
-  const MobileChatScreen({Key? key}) : super(key: key);
+  final int index;
+  const MobileChatScreen({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: appBarColor,
+        backgroundColor: AppColors.appBarColor,
         title: Text(
-          info[0]['name'].toString(),
+          info[index]['name'].toString(),
         ),
         centerTitle: false,
         actions: [
@@ -38,7 +39,7 @@ class MobileChatScreen extends StatelessWidget {
           TextField(
             decoration: InputDecoration(
               filled: true,
-              fillColor: mobileChatBoxColor,
+              fillColor: AppColors.mobileChatBoxColor,
               prefixIcon: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Icon(Icons.emoji_emotions, color: Colors.grey,),

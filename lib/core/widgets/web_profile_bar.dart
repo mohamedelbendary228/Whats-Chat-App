@@ -13,10 +13,10 @@ class WebProfileBar extends StatelessWidget {
       decoration: const BoxDecoration(
         border: Border(
           right: BorderSide(
-            color: dividerColor,
+            color: AppColors.dividerColor,
           ),
         ),
-        color: webAppBarColor,
+        color: AppColors.webAppBarColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -31,7 +31,7 @@ class WebLayoutScreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.75,
             decoration: const BoxDecoration(
               border: Border(
-                left: BorderSide(color: dividerColor),
+                left: BorderSide(color: AppColors.dividerColor),
               ),
               image: DecorationImage(
                 image: AssetImage(
@@ -52,9 +52,9 @@ class WebLayoutScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(color: dividerColor),
+                      bottom: BorderSide(color: AppColors.dividerColor),
                     ),
-                    color: chatBarMessage,
+                    color: AppColors.chatBarMessage,
                   ),
                   child: Row(
                     children: [
@@ -81,7 +81,7 @@ class WebLayoutScreen extends StatelessWidget {
                           child: TextField(
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: searchBarColor,
+                              fillColor: AppColors.searchBarColor,
                               hintText: 'Type a message',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20.0),

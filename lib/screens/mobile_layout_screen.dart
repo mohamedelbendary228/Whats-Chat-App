@@ -13,10 +13,10 @@ class MobileLayoutScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: appBarColor,
+          backgroundColor: AppColors.appBarColor,
           centerTitle: false,
           title: const Text(
-            'WhatsApp',
+            'WhatsAppChat',
             style: TextStyle(
               fontSize: 20,
               color: Colors.grey,
@@ -34,9 +34,9 @@ class MobileLayoutScreen extends StatelessWidget {
             ),
           ],
           bottom: const TabBar(
-            indicatorColor: tabColor,
+            indicatorColor: AppColors.tabColor,
             indicatorWeight: 4,
-            labelColor: tabColor,
+            labelColor: AppColors.tabColor,
             unselectedLabelColor: Colors.grey,
             labelStyle: TextStyle(
               fontWeight: FontWeight.bold,
@@ -57,7 +57,7 @@ class MobileLayoutScreen extends StatelessWidget {
         body: const ContactsList(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
-          backgroundColor: tabColor,
+          backgroundColor: AppColors.tabColor,
           child: const Icon(
             Icons.comment,
             color: Colors.white,

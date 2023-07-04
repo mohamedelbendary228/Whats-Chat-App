@@ -21,7 +21,7 @@ class ContactsList extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const MobileChatScreen(),
+                      builder: (context) => MobileChatScreen(index: index),
                     ),
                   );
                 },
@@ -57,7 +57,7 @@ class ContactsList extends StatelessWidget {
                   ),
                 ),
               ),
-              const Divider(color: dividerColor, indent: 85),
+              const Divider(color: AppColors.dividerColor, indent: 85),
             ],
           );
         },

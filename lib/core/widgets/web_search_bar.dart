@@ -12,18 +12,18 @@ class WebSearchBar extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: dividerColor),
+          bottom: BorderSide(color:AppColors.dividerColor),
         ),
       ),
       child: TextField(
         decoration: InputDecoration(
           filled: true,
-          fillColor: searchBarColor,
+          fillColor: AppColors.searchBarColor,
           prefixIcon: const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Icon(Icons.search, size: 20),
+            child: Icon(Icons.search, size: 18),
           ),
-          hintStyle: const TextStyle(fontSize: 14),
+          hintStyle: const TextStyle(fontSize: 13),
           hintText: 'Search or start new chat',
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
@@ -32,7 +32,7 @@ class WebSearchBar extends StatelessWidget {
               style: BorderStyle.none,
             ),
           ),
-          contentPadding: const EdgeInsets.all(10),
+          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
         ),
       ),
     );

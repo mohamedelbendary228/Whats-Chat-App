@@ -72,15 +72,31 @@ const info = [
 ];
 
 const messages = [
-  {"isMe": false, "text": "Hey What is up with you!!", "time": "10:00 am"},
-  {"isMe": true, "text": "im fine,wbu?", "time": "11:00 am"},
-  {"isMe": false, "text": "I am great man!", "time": "11:01 am"},
+  {
+    "isMe": false,
+    "text": "Hey What is up with you!!",
+    "time": "10:00 am",
+  },
+  {
+    "isMe": true,
+    "text": "im fine,wbu?",
+    "time": "11:00 am",
+  },
+  {
+    "isMe": false,
+    "text": "I am great man!",
+    "time": "11:01 am",
+  },
   {
     "isMe": false,
     "text": "Just messaged cuz I had some work.",
     "time": "11:01 am"
   },
-  {"isMe": true, "text": "Obviously, say", "time": "11:03 am"},
+  {
+    "isMe": true,
+    "text": "Obviously, say",
+    "time": "11:03 am",
+  },
   {
     "isMe": false,
     "text": "haha I wanted you to check out my new channel ^^",
@@ -101,18 +117,20 @@ const messages = [
     "text": "Looks great to me!",
     "time": "11:15 am",
   },
-  
-
-  {"isMe": false, "text": "Thanks bro!", "time": "11:17 am"},
+  {
+    "isMe": false,
+    "text": "Thanks bro!",
+    "time": "11:17 am",
+  },
   {
     "isMe": false,
     "text": "Did you subscribe?",
-    "time": "11:16 am"
+    "time": "11:16 am",
   },
   {
     "isMe": true,
     "text": "Yes, surely bro!",
-    "time": "11:17 am"
+    "time": "11:17 am",
   },
   {
     "isMe": false,
