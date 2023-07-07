@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/router.dart';
 
-
-
 class AuthRepository {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
@@ -25,12 +23,30 @@ class AuthRepository {
         verificationFailed: (e) {
           throw Exception(e.message);
         },
-        codeSent: ((String verificationCode, int? resendToken) async {
+        codeSent: ((String verificationId, int? resendToken) async {
           Navigator.of(context)
-              .pushNamed(RoutesNames.OTP_SCREEN, arguments: verificationCode);
+              .pushNamed(RoutesNames.OTP_SCREEN, arguments: verificationId);
         }),
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(
+          context: context, content: e.message ?? "Something went wrong!");
+    }
+  }
+
+  void verifyOTP(
+      {required BuildContext context,
+      required String verificationId,
+      required String smsCode}) async {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: smsCode);
+      await auth.signInWithCredential(credential);
+      if(context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            RoutesNames.USER_INFO_SCREEN, (route) => false);
+      }
     } on FirebaseAuthException catch (e) {
       showSnackBar(
           context: context, content: e.message ?? "Something went wrong!");

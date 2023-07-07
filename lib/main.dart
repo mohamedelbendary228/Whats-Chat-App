@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
+import 'package:whats_chat_app/features/auth/screens/otp_screen.dart';
 import 'package:whats_chat_app/features/landing/screens/landing_screen.dart';
 import 'package:whats_chat_app/firebase_options.dart';
 import 'package:whats_chat_app/router.dart';
