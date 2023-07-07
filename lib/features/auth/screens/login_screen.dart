@@ -34,6 +34,7 @@ class _LoinPageState extends State<LoinPage> {
 
   void sendPhoneNumber() {
     String phoneNumber = phoneController.text.trim();
+    FocusScope.of(context).unfocus();
     if (selectedCountry != null && phoneNumber.isNotEmpty) {
 
     } else {
