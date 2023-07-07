@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/router.dart';
 
+
+
 class AuthRepository {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;

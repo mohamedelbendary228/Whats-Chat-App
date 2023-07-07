@@ -1,18 +1,20 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/core/widgets/custom_button.dart';
+import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
 
-class LoinPage extends StatefulWidget {
+class LoinPage extends ConsumerStatefulWidget {
   const LoinPage({Key? key}) : super(key: key);
 
   @override
-  State<LoinPage> createState() => _LoinPageState();
+  ConsumerState<LoinPage> createState() => _LoinPageState();
 }
 
-class _LoinPageState extends State<LoinPage> {
+class _LoinPageState extends ConsumerState<LoinPage> {
   final TextEditingController phoneController = TextEditingController();
   Country? selectedCountry;
 
@@ -36,7 +38,10 @@ class _LoinPageState extends State<LoinPage> {
     String phoneNumber = phoneController.text.trim();
     FocusScope.of(context).unfocus();
     if (selectedCountry != null && phoneNumber.isNotEmpty) {
-
+      ref.read(authControllerProvider).signInWithPhoneNumber(
+            context,
+            "+${selectedCountry!.phoneCode}$phoneNumber",
+          );
     } else {
       showSnackBar(context: context, content: 'Fill out all the fields');
     }
