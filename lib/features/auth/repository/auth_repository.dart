@@ -1,8 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whats_chat_app/core/contants/app_constants.dart';
+import 'package:whats_chat_app/core/repository/common_firbase_sotrage_repository.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
+import 'package:whats_chat_app/model/user_model.dart';
 import 'package:whats_chat_app/router.dart';
+import 'package:whats_chat_app/screens/mobile_layout_screen.dart';
 
 class AuthRepository {
   final FirebaseAuth auth;
@@ -43,13 +51,51 @@ class AuthRepository {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
       await auth.signInWithCredential(credential);
-      if(context.mounted) {
+      if (context.mounted) {
         Navigator.of(context).pushNamedAndRemoveUntil(
             RoutesNames.USER_INFO_SCREEN, (route) => false);
       }
     } on FirebaseAuthException catch (e) {
       showSnackBar(
           context: context, content: e.message ?? "Something went wrong!");
+    }
+  }
+
+  void saveUserDataToFirestore({
+    required String name,
+    required File? profilePic,
+    required ProviderRef ref,
+    required BuildContext context,
+  }) async {
+    try {
+      String uid = auth.currentUser!.uid;
+      String photoUrl = AppConstants.DUMMY_PROFILE_PIC;
+
+      if (profilePic != null) {
+        photoUrl = await ref
+            .read(commonFirebaseStorageProvider)
+            .storeFileToFirebase("profilePic/$uid", profilePic);
+      }
+
+      var user = UserModel(
+          name: name,
+          uid: uid,
+          profilePic: photoUrl,
+          isOnline: true,
+          phoneNumber: auth.currentUser!.uid,
+          groupId: []);
+
+      await firestore.collection("users").doc(uid).set(user.toJson());
+      if (context.mounted) {
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+          builder: (context) {
+            return const MobileLayoutScreen();
+          },
+        ), (route) => false);
+      }
+    } catch (e) {
+      showSnackBar(
+          context: context, content: e.toString() ?? "Something went wrong!");
     }
   }
 }

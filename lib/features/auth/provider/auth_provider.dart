@@ -13,5 +13,5 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 
 final authControllerProvider = Provider<AuthController>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
-  return AuthController(authRepository: authRepository);
+  return AuthController(authRepository: authRepository, ref: ref);
 });
