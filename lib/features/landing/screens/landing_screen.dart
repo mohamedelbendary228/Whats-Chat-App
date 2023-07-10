@@ -1,57 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_chat_app/colors.dart';
-import 'package:whats_chat_app/core/widgets/custom_button.dart';
-import 'package:whats_chat_app/router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whats_chat_app/core/widgets/error_screen.dart';
+import 'package:whats_chat_app/core/widgets/loading_screen.dart';
+import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
+import 'package:whats_chat_app/features/landing/screens/welcome_screen.dart';
+import 'package:whats_chat_app/screens/mobile_layout_screen.dart';
 
-class LandingPage extends StatelessWidget {
-  const LandingPage({Key? key}) : super(key: key);
+class LandingScreen extends ConsumerWidget {
+  const LandingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 50.h),
-              Text(
-                "Welcome to WhatsChatApp",
-                style: TextStyle(fontSize: 27.sp, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: size.height / 13),
-              Image.asset(
-                "assets/bg.png",
-                height: 320.h,
-                width: 320.w,
-                color: AppColors.tabColor,
-              ),
-              SizedBox(height: size.height / 15),
-              const Padding(
-                padding: EdgeInsets.all(14),
-                child: Text(
-                  'Read out Privacy Policy, Tap "Agree and Continue" To accept the Terms and Services',
-                  style: TextStyle(
-                    color: AppColors.greyColor,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              SizedBox(
-                width: size.width * 0.80,
-                child: CustomButton(
-                  text: "AGREE AND CONTINUE",
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(RoutesNames.LOGIN_SCREEN),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userRef = ref.watch(userDataProvider);
+    return userRef.when(
+        data: (user) {
+          if (user == null) {
+            return const WelcomePage();
+          }
+          return const MobileLayoutScreen();
+        },
+        error: (e, _) {
+          return ErrorPage(error: e.toString());
+        },
+        loading: () => const LoaderPage());
   }
 }

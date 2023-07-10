@@ -17,6 +17,7 @@ class LoinPage extends ConsumerStatefulWidget {
 class _LoinPageState extends ConsumerState<LoinPage> {
   final TextEditingController phoneController = TextEditingController();
   Country? selectedCountry;
+  bool loading = false;
 
   @override
   void dispose() {
@@ -34,14 +35,25 @@ class _LoinPageState extends ConsumerState<LoinPage> {
         });
   }
 
-  void sendPhoneNumber() {
+  Future<void> sendPhoneNumber() async {
     String phoneNumber = phoneController.text.trim();
     FocusScope.of(context).unfocus();
     if (selectedCountry != null && phoneNumber.isNotEmpty) {
-      ref.read(authControllerProvider).signInWithPhoneNumber(
-            context,
-            "+${selectedCountry!.phoneCode}$phoneNumber",
-          );
+      setState(() {
+        loading = true;
+        debugPrint("loading $loading");
+      });
+      await Future.delayed(const Duration(seconds: 1));
+      if(mounted) {
+        await ref.read(authControllerProvider).signInWithPhoneNumber(
+          context,
+          "+${selectedCountry!.phoneCode}$phoneNumber",
+        );
+      }
+      setState(() {
+        loading = false;
+        debugPrint("loading $loading");
+      });
     } else {
       showSnackBar(context: context, content: 'Fill out all the fields');
     }
@@ -89,7 +101,7 @@ class _LoinPageState extends ConsumerState<LoinPage> {
                 ],
               ),
               const Spacer(),
-              SizedBox(
+              loading? const CircularProgressIndicator(color: AppColors.tabColor) : SizedBox(
                 width: 90.w,
                 child: CustomButton(
                   onPressed: sendPhoneNumber,

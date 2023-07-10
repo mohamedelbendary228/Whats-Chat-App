@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/features/auth/repository/auth_repository.dart';
+import 'package:whats_chat_app/model/user_model.dart';
 
 class AuthController {
   final AuthRepository authRepository;
@@ -10,8 +11,14 @@ class AuthController {
 
   AuthController({required this.authRepository, required this.ref});
 
-  void signInWithPhoneNumber(BuildContext context, String phoneNumber) {
-    authRepository.signInWithPhoneNumber(context, phoneNumber);
+  Future<UserModel?> getCurrentUserData() async {
+    UserModel? user = await authRepository.getCurrentUserData();
+    return user;
+  }
+
+  Future<void> signInWithPhoneNumber(
+      BuildContext context, String phoneNumber) async {
+    await authRepository.signInWithPhoneNumber(context, phoneNumber);
   }
 
   void verifyOTP(
@@ -22,12 +29,12 @@ class AuthController {
         context: context, verificationId: verificationId, smsCode: smsCode);
   }
 
-  void saveUserDataToFirestore({
+  Future<void> saveUserDataToFirestore({
     required String name,
     required File? profilePic,
     required BuildContext context,
-  }) {
-    authRepository.saveUserDataToFirestore(
+  }) async {
+    await authRepository.saveUserDataToFirestore(
       name: name,
       profilePic: profilePic,
       ref: ref,

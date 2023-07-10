@@ -21,7 +21,18 @@ class AuthRepository {
     required this.firestore,
   });
 
-  void signInWithPhoneNumber(BuildContext context, String phoneNumber) async {
+  Future<UserModel?> getCurrentUserData() async {
+    var userData =
+        await firestore.collection("users").doc(auth.currentUser?.uid).get();
+    UserModel? user;
+    if (userData.data() != null) {
+      user = UserModel.fromJson(userData.data()!);
+    }
+    return user;
+  }
+
+  Future<void> signInWithPhoneNumber(
+      BuildContext context, String phoneNumber) async {
     try {
       await auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
@@ -52,7 +63,7 @@ class AuthRepository {
           verificationId: verificationId, smsCode: smsCode);
       await auth.signInWithCredential(credential);
       if (context.mounted) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
+        await Navigator.of(context).pushNamedAndRemoveUntil(
             RoutesNames.USER_INFO_SCREEN, (route) => false);
       }
     } on FirebaseAuthException catch (e) {
@@ -61,7 +72,7 @@ class AuthRepository {
     }
   }
 
-  void saveUserDataToFirestore({
+  Future<void> saveUserDataToFirestore({
     required String name,
     required File? profilePic,
     required ProviderRef ref,
@@ -87,7 +98,7 @@ class AuthRepository {
 
       await firestore.collection("users").doc(uid).set(user.toJson());
       if (context.mounted) {
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+        await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
           builder: (context) {
             return const MobileLayoutScreen();
           },

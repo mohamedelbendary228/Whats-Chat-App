@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
-import 'package:whats_chat_app/features/landing/screens/landing_screen.dart';
+import 'package:whats_chat_app/features/landing/screens/welcome_screen.dart';
 import 'package:whats_chat_app/firebase_options.dart';
 import 'package:whats_chat_app/router.dart';
 
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: AppColors.backgroundColor,
           ),
           onGenerateRoute: (settings) => generateRoute(settings),
-          home: const LandingPage(),
+          initialRoute: RoutesNames.LANDING_SCREEN,
         );
       },
     );
