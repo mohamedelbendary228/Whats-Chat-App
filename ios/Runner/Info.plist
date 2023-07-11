@@ -47,5 +47,13 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>WhatChatApp need access to the gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>WhatChatApp need access to the camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>WhatChatApp need access to the microphone</string>
+	<key>NSContactsUsageDescription</key>
+	 <string>WhatChatApp need access to the contact list</string>
 </dict>
 </plist>

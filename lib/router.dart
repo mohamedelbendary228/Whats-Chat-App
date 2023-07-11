@@ -5,6 +5,7 @@ import 'package:whats_chat_app/features/auth/screens/login_screen.dart';
 import 'package:whats_chat_app/features/auth/screens/otp_screen.dart';
 import 'package:whats_chat_app/features/auth/screens/user_info_screen.dart';
 import 'package:whats_chat_app/features/landing/screens/landing_screen.dart';
+import 'package:whats_chat_app/features/select_contacts/screens/select_contacts_screen.dart';
 
 class RoutesNames {
   RoutesNames._();
@@ -13,6 +14,7 @@ class RoutesNames {
   static const String LOGIN_SCREEN = "/login_screen";
   static const String OTP_SCREEN = "/otp_screen";
   static const String USER_INFO_SCREEN = "/user_info_screen";
+  static const String SELECT_CONTACT = "/select_contact";
 }
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -33,6 +35,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case RoutesNames.USER_INFO_SCREEN:
       return MaterialPageRoute(
         builder: (context) => const UserInfoPage(),
+      );
+    case RoutesNames.SELECT_CONTACT:
+      return MaterialPageRoute(
+        builder: (context) => const SelectContactsPage(),
       );
     default:
       return MaterialPageRoute(

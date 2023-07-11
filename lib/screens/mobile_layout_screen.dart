@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/widgets/contacts_list.dart';
-
+import 'package:whats_chat_app/router.dart';
 
 class MobileLayoutScreen extends StatelessWidget {
   const MobileLayoutScreen({Key? key}) : super(key: key);
@@ -56,7 +56,9 @@ class MobileLayoutScreen extends StatelessWidget {
         ),
         body: const ContactsList(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(RoutesNames.SELECT_CONTACT);
+          },
           backgroundColor: AppColors.tabColor,
           child: const Icon(
             Icons.comment,
