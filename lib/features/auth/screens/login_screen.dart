@@ -69,49 +69,51 @@ class _LoinPageState extends ConsumerState<LoinPage> {
         elevation: 0,
         backgroundColor: AppColors.backgroundColor,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Center(
-          child: Column(
-            children: [
-              const Text('WhatsChatApp will need to verify your phone number.'),
-              SizedBox(height: 10.h),
-              TextButton(
-                onPressed: pickCountry,
-                child: const Text('Pick Country'),
-              ),
-              SizedBox(height: 5.h),
-              Row(
-                children: [
-                  if (selectedCountry != null)
-                    Text('+${selectedCountry!.phoneCode}'),
-                  const SizedBox(width: 10),
-                  SizedBox(
-                    width: size.width * 0.7,
-                    child: TextField(
-                      controller: phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                          hintText: 'phone number',
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: AppColors.tabColor))),
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              loading? const CircularProgressIndicator(color: AppColors.tabColor) : SizedBox(
-                width: 90.w,
-                child: CustomButton(
-                  onPressed: sendPhoneNumber,
-                  text: 'NEXT',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Center(
+            child: Column(
+              children: [
+                const Text('WhatsChatApp will need to verify your phone number.'),
+                SizedBox(height: 10.h),
+                TextButton(
+                  onPressed: pickCountry,
+                  child: const Text('Pick Country'),
                 ),
-              ),
-              SizedBox(
-                height: 10.h,
-              )
-            ],
+                SizedBox(height: 5.h),
+                Row(
+                  children: [
+                    if (selectedCountry != null)
+                      Text('+${selectedCountry!.phoneCode}'),
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: size.width * 0.7,
+                      child: TextField(
+                        controller: phoneController,
+                        keyboardType: TextInputType.phone,
+                        decoration: const InputDecoration(
+                            hintText: 'phone number',
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: AppColors.tabColor))),
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                loading? const CircularProgressIndicator(color: AppColors.tabColor) : SizedBox(
+                  width: 90.w,
+                  child: CustomButton(
+                    onPressed: sendPhoneNumber,
+                    text: 'NEXT',
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                )
+              ],
+            ),
           ),
         ),
       ),
