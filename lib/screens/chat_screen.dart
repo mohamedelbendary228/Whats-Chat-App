@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/widgets/chat_list.dart';
+import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
 import 'package:whats_chat_app/info.dart';
+import 'package:whats_chat_app/model/user_model.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends ConsumerWidget {
   final String name;
   final String uid;
 
@@ -11,13 +15,30 @@ class ChatScreen extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
-        title: Text(
-          name,
-        ),
+        title: StreamBuilder<UserModel>(
+            stream: ref.read(authControllerProvider).userData(uid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox.shrink();
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                  ),
+                  Text(
+                    snapshot.data!.isOnline ? "online" : "offline",
+                    style: TextStyle(
+                        fontSize: 14.sp, fontWeight: FontWeight.normal),
+                  ),
+                ],
+              );
+            }),
         centerTitle: false,
         actions: [
           IconButton(
@@ -50,11 +71,11 @@ class ChatScreen extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
-              suffixIcon: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              suffixIcon: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.camera_alt,
                       color: Colors.grey,

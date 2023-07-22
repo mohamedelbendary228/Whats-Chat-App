@@ -21,9 +21,7 @@ class ContactsList extends ConsumerWidget {
           final contact = contactsWithPhone[index];
           return InkWell(
             onTap: () {
-              ref
-                  .read(selectContactControllerProvider)
-                  .selectContact(contact, context);
+              ref.read(selectContactControllerProvider).selectContact(contact, context);
             },
             child: Padding(
               padding: EdgeInsets.only(top: 10.h),

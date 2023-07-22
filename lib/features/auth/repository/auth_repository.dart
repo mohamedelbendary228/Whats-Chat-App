@@ -31,6 +31,14 @@ class AuthRepository {
     return user;
   }
 
+  Stream<UserModel> userData(String uid) {
+    return firestore
+        .collection("users")
+        .doc(uid)
+        .snapshots()
+        .map((event) => UserModel.fromJson(event.data()!));
+  }
+
   Future<void> signInWithPhoneNumber(
       BuildContext context, String phoneNumber) async {
     try {

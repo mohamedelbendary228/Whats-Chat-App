@@ -16,6 +16,10 @@ class AuthController {
     return user;
   }
 
+  Stream<UserModel> userData(String uid) {
+    return authRepository.userData(uid);
+  }
+
   Future<void> signInWithPhoneNumber(
       BuildContext context, String phoneNumber) async {
     await authRepository.signInWithPhoneNumber(context, phoneNumber);
