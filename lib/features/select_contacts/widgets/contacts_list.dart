@@ -12,12 +12,13 @@ class ContactsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    List<Contact> contactsWithPhone = contacts.where((c) => c.phones.isNotEmpty).toList();
     return Padding(
       padding: EdgeInsets.only(top: 15.h),
       child: ListView.builder(
-        itemCount: contacts.length,
+        itemCount: contactsWithPhone.length,
         itemBuilder: (context, index) {
-          final contact = contacts[index];
+          final contact = contactsWithPhone[index];
           return InkWell(
             onTap: () {
               ref
