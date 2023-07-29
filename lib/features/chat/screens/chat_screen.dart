@@ -20,6 +20,7 @@ class ChatScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
+        /// Name and online statue
         title: StreamBuilder<UserModel>(
             stream: ref.read(authControllerProvider).userData(uid),
             builder: (context, snapshot) {

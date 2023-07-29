@@ -17,13 +17,28 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
     super.dispose();
     messageController.dispose();
   }
+
+  bool isSendButtonVisible = false;
+
+  void toggleSendButton(String val) {
+    if(val.isNotEmpty) {
+      setState(() {
+        isSendButtonVisible = true;
+      });
+    } else {
+      setState(() {
+        isSendButtonVisible = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
-          child: TextField(
+          child: TextFormField(
             controller: messageController,
+            onChanged: toggleSendButton,
             decoration: InputDecoration(
               filled: true,
               fillColor: AppColors.mobileChatBoxColor,
@@ -84,10 +99,10 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
         ),
         Padding(
           padding: EdgeInsets.only(bottom: 8.h, right: 5.w, left: 8.w),
-          child: const CircleAvatar(
+          child: CircleAvatar(
             backgroundColor: AppColors.sendMessageButtonColor,
             radius: 25,
-            child: Icon(Icons.send),
+            child: Icon(isSendButtonVisible ? Icons.send : Icons.mic),
           ),
         )
       ],
