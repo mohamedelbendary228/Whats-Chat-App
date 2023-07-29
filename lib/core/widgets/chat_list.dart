@@ -11,6 +11,7 @@ class ChatList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: messages.length,
+      scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
         if (messages[index]['isMe'] == true) {
           return MyMessageCard(

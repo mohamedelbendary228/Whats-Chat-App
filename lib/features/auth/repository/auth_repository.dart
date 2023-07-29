@@ -10,7 +10,7 @@ import 'package:whats_chat_app/core/repository/common_firbase_sotrage_repository
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/model/user_model.dart';
 import 'package:whats_chat_app/router.dart';
-import 'package:whats_chat_app/screens/mobile_layout_screen.dart';
+import 'package:whats_chat_app/screens/main_screen.dart';
 
 class AuthRepository {
   final FirebaseAuth auth;
@@ -108,7 +108,7 @@ class AuthRepository {
       if (context.mounted) {
         await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
           builder: (context) {
-            return const MobileLayoutScreen();
+            return const MainScreen();
           },
         ), (route) => false);
       }

@@ -6,7 +6,7 @@ import 'package:whats_chat_app/features/auth/screens/otp_screen.dart';
 import 'package:whats_chat_app/features/auth/screens/user_info_screen.dart';
 import 'package:whats_chat_app/features/landing/screens/landing_screen.dart';
 import 'package:whats_chat_app/features/select_contacts/screens/select_contacts_screen.dart';
-import 'package:whats_chat_app/screens/chat_screen.dart';
+import 'package:whats_chat_app/features/chat/screens/chat_screen.dart';
 
 class RoutesNames {
   RoutesNames._();

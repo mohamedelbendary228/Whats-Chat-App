@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/widgets/chat_list.dart';
 import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
+import 'package:whats_chat_app/features/chat/widgets/bottom_chat_text_field.dart';
 import 'package:whats_chat_app/info.dart';
 import 'package:whats_chat_app/model/user_model.dart';
 
@@ -55,53 +56,12 @@ class ChatScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: Column(
+      body: const Column(
         children: [
-          const Expanded(
+          Expanded(
             child: ChatList(),
           ),
-          TextField(
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: AppColors.mobileChatBoxColor,
-              prefixIcon: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Icon(
-                  Icons.emoji_emotions,
-                  color: Colors.grey,
-                ),
-              ),
-              suffixIcon: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.camera_alt,
-                      color: Colors.grey,
-                    ),
-                    Icon(
-                      Icons.attach_file,
-                      color: Colors.grey,
-                    ),
-                    Icon(
-                      Icons.money,
-                      color: Colors.grey,
-                    ),
-                  ],
-                ),
-              ),
-              hintText: 'Type a message!',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                borderSide: const BorderSide(
-                  width: 0,
-                  style: BorderStyle.none,
-                ),
-              ),
-              contentPadding: const EdgeInsets.all(10),
-            ),
-          ),
+          BottomChatTextField(),
         ],
       ),
     );

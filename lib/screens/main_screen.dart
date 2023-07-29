@@ -3,8 +3,8 @@ import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/widgets/contacts_list.dart';
 import 'package:whats_chat_app/router.dart';
 
-class MobileLayoutScreen extends StatelessWidget {
-  const MobileLayoutScreen({Key? key}) : super(key: key);
+class MainScreen extends StatelessWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
