@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
+import 'package:whats_chat_app/features/chat/provider/chat_provider.dart';
 
-class BottomChatTextField extends StatefulWidget {
-  const BottomChatTextField({Key? key}) : super(key: key);
+class BottomChatTextField extends ConsumerStatefulWidget {
+  final String receiverId;
+
+  const BottomChatTextField({super.key, required this.receiverId});
 
   @override
-  State<BottomChatTextField> createState() => _BottomChatTextFieldState();
+  ConsumerState createState() => _BottomChatTextFieldState();
 }
 
-class _BottomChatTextFieldState extends State<BottomChatTextField> {
+class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
   final TextEditingController messageController = TextEditingController();
 
   @override
@@ -21,7 +25,7 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
   bool isSendButtonVisible = false;
 
   void toggleSendButton(String val) {
-    if(val.isNotEmpty) {
+    if (val.isNotEmpty) {
       setState(() {
         isSendButtonVisible = true;
       });
@@ -31,6 +35,17 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
       });
     }
   }
+
+  Future<void> sendTextMessage() async {
+    if (isSendButtonVisible) {
+      await ref.read(chatControllerProvider).sendTextMessage(
+          context: context,
+          text: messageController.text,
+          receiverId: widget.receiverId);
+      messageController.clear();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -102,7 +117,9 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
           child: CircleAvatar(
             backgroundColor: AppColors.sendMessageButtonColor,
             radius: 25,
-            child: Icon(isSendButtonVisible ? Icons.send : Icons.mic),
+            child: GestureDetector(
+                onTap: sendTextMessage,
+                child: Icon(isSendButtonVisible ? Icons.send : Icons.mic)),
           ),
         )
       ],

@@ -57,12 +57,12 @@ class ChatScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: const Column(
+      body:  Column(
         children: [
-          Expanded(
+          const Expanded(
             child: ChatList(),
           ),
-          BottomChatTextField(),
+          BottomChatTextField(receiverId: uid),
         ],
       ),
     );
