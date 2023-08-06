@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/features/auth/controller/auth_controller.dart';
 import 'package:whats_chat_app/features/auth/repository/auth_repository.dart';
-import 'package:whats_chat_app/model/user_model.dart';
+import 'package:whats_chat_app/models/user_model.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(

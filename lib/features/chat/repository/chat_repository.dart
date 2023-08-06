@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
-import 'package:whats_chat_app/model/chat_contact_model.dart';
-import 'package:whats_chat_app/model/message_model.dart';
-import 'package:whats_chat_app/model/user_model.dart';
+import 'package:whats_chat_app/models/chat_contact_model.dart';
+import 'package:whats_chat_app/models/message_model.dart';
+import 'package:whats_chat_app/models/user_model.dart';
 
 class ChatRepository {
   final FirebaseFirestore firestore;

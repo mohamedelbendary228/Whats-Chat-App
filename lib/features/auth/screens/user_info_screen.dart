@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
-import 'package:whats_chat_app/core/contants/app_constants.dart';
+import 'package:whats_chat_app/core/constants/app_constants.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/core/widgets/custom_button.dart';
 import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';

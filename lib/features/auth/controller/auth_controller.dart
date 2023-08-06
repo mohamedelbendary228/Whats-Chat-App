@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/features/auth/repository/auth_repository.dart';
-import 'package:whats_chat_app/model/user_model.dart';
+import 'package:whats_chat_app/models/user_model.dart';
 
 class AuthController {
   final AuthRepository authRepository;

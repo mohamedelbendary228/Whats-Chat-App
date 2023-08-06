@@ -4,8 +4,8 @@ import 'package:whats_chat_app/info.dart';
 import 'package:whats_chat_app/features/chat/screens/chat_screen.dart';
 
 
-class ContactsList extends StatelessWidget {
-  const ContactsList({Key? key}) : super(key: key);
+class ChatsContactsScreen extends StatelessWidget {
+  const ChatsContactsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

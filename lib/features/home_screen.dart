@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:whats_chat_app/colors.dart';
-import 'package:whats_chat_app/core/widgets/contacts_list.dart';
+import 'package:whats_chat_app/features/chats_contacts/screens/chats_contacts_screen.dart';
 import 'package:whats_chat_app/router.dart';
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class MainHomeScreen extends StatelessWidget {
+  const MainHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,13 @@ class MainScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: const ContactsList(),
+        body: TabBarView(
+          children: [
+            const ChatsContactsScreen(),
+            Container(),
+            Container(),
+          ],
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).pushNamed(RoutesNames.SELECT_CONTACT);

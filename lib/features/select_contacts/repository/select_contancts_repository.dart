@@ -3,7 +3,7 @@ import 'package:country_codes/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
-import 'package:whats_chat_app/model/user_model.dart';
+import 'package:whats_chat_app/models/user_model.dart';
 import 'package:whats_chat_app/router.dart';
 
 class SelectContactRepository {

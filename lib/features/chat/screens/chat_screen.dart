@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
-import 'package:whats_chat_app/core/widgets/chat_list.dart';
+import 'package:whats_chat_app/features/chat/screens/widgets/chat_list.dart';
 import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
-import 'package:whats_chat_app/features/chat/widgets/bottom_chat_text_field.dart';
+import 'package:whats_chat_app/features/chat/screens/widgets/bottom_chat_text_field.dart';
 import 'package:whats_chat_app/info.dart';
-import 'package:whats_chat_app/model/user_model.dart';
+import 'package:whats_chat_app/models/user_model.dart';
 
 class ChatScreen extends ConsumerWidget {
   final String name;

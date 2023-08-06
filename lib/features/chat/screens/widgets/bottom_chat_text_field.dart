@@ -40,7 +40,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
     if (isSendButtonVisible) {
       await ref.read(chatControllerProvider).sendTextMessage(
           context: context,
-          text: messageController.text,
+          text: messageController.text.trim(),
           receiverId: widget.receiverId);
       messageController.clear();
     }

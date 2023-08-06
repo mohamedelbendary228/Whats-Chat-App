@@ -5,12 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whats_chat_app/core/contants/app_constants.dart';
+import 'package:whats_chat_app/core/constants/app_constants.dart';
 import 'package:whats_chat_app/core/repository/common_firbase_sotrage_repository.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
-import 'package:whats_chat_app/model/user_model.dart';
+import 'package:whats_chat_app/features/home_screen.dart';
+import 'package:whats_chat_app/models/user_model.dart';
 import 'package:whats_chat_app/router.dart';
-import 'package:whats_chat_app/screens/main_screen.dart';
 
 class AuthRepository {
   final FirebaseAuth auth;
@@ -108,7 +108,7 @@ class AuthRepository {
       if (context.mounted) {
         await Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
           builder: (context) {
-            return const MainScreen();
+            return const MainHomeScreen();
           },
         ), (route) => false);
       }
