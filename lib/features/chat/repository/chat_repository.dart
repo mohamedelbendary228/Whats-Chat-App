@@ -40,7 +40,7 @@ class ChatRepository {
         lastMessage: text);
 
     await firestore
-        .collection("user")
+        .collection("users")
         .doc(receiverId)
         .collection("chats")
         .doc(firebaseAuth.currentUser!.uid)
@@ -55,7 +55,7 @@ class ChatRepository {
         lastMessage: text);
 
     await firestore
-        .collection("user")
+        .collection("users")
         .doc(firebaseAuth.currentUser!.uid)
         .collection("chats")
         .doc(receiverId)
@@ -113,7 +113,7 @@ class ChatRepository {
       UserModel receiverUserData;
 
       var userDataJson =
-          await firestore.collection("user").doc(receiverId).get();
+          await firestore.collection("users").doc(receiverId).get();
 
       var messageId = const Uuid().v1();
 
@@ -138,6 +138,7 @@ class ChatRepository {
       );
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
+      rethrow;
     }
   }
 }

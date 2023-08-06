@@ -51,6 +51,9 @@ class SelectContactRepository {
         debugPrint("selectedPhoneNumber $selectedPhoneNumber");
 
         if (selectedPhoneNumber == userModel.phoneNumber) {
+          debugPrint("username ${userModel.name}");
+          debugPrint("user Id ${userModel.uid}");
+
           isContactFound = true;
           if (context.mounted) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
