@@ -20,27 +20,29 @@ class ChatScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.appBarColor,
+
         /// Name and online statue
         title: StreamBuilder<UserModel>(
-            stream: ref.read(authControllerProvider).userData(uid),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox.shrink();
-              }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                  ),
-                  Text(
-                    snapshot.data!.isOnline ? "online" : "offline",
-                    style: TextStyle(
-                        fontSize: 14.sp, fontWeight: FontWeight.normal),
-                  ),
-                ],
-              );
-            }),
+          stream: ref.read(authControllerProvider).userData(uid),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SizedBox.shrink();
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                ),
+                Text(
+                  snapshot.data!.isOnline ? "online" : "offline",
+                  style:
+                      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.normal),
+                ),
+              ],
+            );
+          },
+        ),
         centerTitle: false,
         actions: [
           IconButton(
@@ -57,10 +59,10 @@ class ChatScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body:  Column(
+      body: Column(
         children: [
-          const Expanded(
-            child: ChatList(),
+          Expanded(
+            child: ChatList(receiverId: uid),
           ),
           BottomChatTextField(receiverId: uid),
         ],
