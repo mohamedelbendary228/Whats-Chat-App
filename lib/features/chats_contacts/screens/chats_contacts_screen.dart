@@ -7,6 +7,7 @@ import 'package:whats_chat_app/features/chats_contacts/screens/widgets/chat_cont
 import 'package:whats_chat_app/info.dart';
 import 'package:whats_chat_app/features/chat/screens/chat_screen.dart';
 import 'package:whats_chat_app/models/chat_contact_model.dart';
+import 'package:whats_chat_app/router.dart';
 
 class ChatsContactsScreen extends ConsumerWidget {
   const ChatsContactsScreen({Key? key}) : super(key: key);
@@ -31,6 +32,12 @@ class ChatsContactsScreen extends ConsumerWidget {
                   lastMessage: chatContact[index].lastMessage,
                   profilePicUrl: chatContact[index].profilePic,
                   timeSent: DateFormat.jmv().format(chatContact[index].timeSent),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(RoutesNames.CHAT_SCREEN, arguments: {
+                      "name": chatContact[index].name,
+                      "uid": chatContact[index].contactId,
+                    });
+                  },
                 );
               },
             );
