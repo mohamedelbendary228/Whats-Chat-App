@@ -36,7 +36,7 @@ class ChatContactListTile extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 6.0),
                 child: Text(
                   lastMessage,
-                  style: const TextStyle(fontSize: 15),
+                  style: const TextStyle(fontSize: 15, overflow: TextOverflow.ellipsis),
                 ),
               ),
               leading: CircleAvatar(
