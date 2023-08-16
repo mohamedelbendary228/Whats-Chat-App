@@ -30,6 +30,7 @@ class ChatContactListTile extends StatelessWidget {
                 name,
                 style: const TextStyle(
                   fontSize: 18,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               subtitle: Padding(

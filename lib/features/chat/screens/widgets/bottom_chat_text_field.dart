@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
@@ -48,10 +49,12 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("text field rebuild");
+    debugPrint("padding ${MediaQuery.of(context).viewInsets.bottom}");
     return Row(
       children: [
         Expanded(
-          child: TextFormField(
+          child: TextField(
             controller: messageController,
             onChanged: toggleSendButton,
             decoration: InputDecoration(

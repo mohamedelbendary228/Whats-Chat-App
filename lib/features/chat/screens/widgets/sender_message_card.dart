@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
 
 class SenderMessageCard extends StatelessWidget {
@@ -34,6 +35,7 @@ class SenderMessageCard extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
+              const SizedBox(height: 3),
               Text(
                 date,
                 style: TextStyle(
@@ -46,48 +48,5 @@ class SenderMessageCard extends StatelessWidget {
         ),
       ),
     );
-    // return Align(
-    //   alignment: Alignment.centerLeft,
-    //   child: ConstrainedBox(
-    //     constraints: BoxConstraints(
-    //       maxWidth: MediaQuery.of(context).size.width - 45,
-    //     ),
-    //     child: Card(
-    //       elevation: 1,
-    //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-    //       color: AppColors.senderMessageColor,
-    //       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-    //       child: Stack(
-    //         children: [
-    //           Padding(
-    //             padding: const EdgeInsets.only(
-    //               left: 10,
-    //               right: 30,
-    //               top: 5,
-    //               bottom: 20,
-    //             ),
-    //             child: Text(
-    //               message,
-    //               style: const TextStyle(
-    //                 fontSize: 16,
-    //               ),
-    //             ),
-    //           ),
-    //           Positioned(
-    //             bottom: 2,
-    //             right: 10,
-    //             child: Text(
-    //               date,
-    //               style: TextStyle(
-    //                 fontSize: 13,
-    //                 color: Colors.grey[600],
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }
