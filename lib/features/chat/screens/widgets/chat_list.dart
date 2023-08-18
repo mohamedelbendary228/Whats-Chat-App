@@ -34,6 +34,7 @@ class _ChatListState extends ConsumerState<ChatList> {
     scrollController.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final chatStream =
@@ -63,6 +64,7 @@ class _ChatListState extends ConsumerState<ChatList> {
               return SenderMessageCard(
                 message: chatData[index].text,
                 date: DateFormat.jmv().format(chatData[index].timeSent),
+                messageType: chatData[index].type,
               );
             },
           );

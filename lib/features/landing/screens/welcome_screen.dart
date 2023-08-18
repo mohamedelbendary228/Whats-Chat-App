@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
+import 'package:whats_chat_app/core/constants/app_assets.dart';
 import 'package:whats_chat_app/core/widgets/custom_button.dart';
 import 'package:whats_chat_app/router.dart';
 
@@ -23,7 +24,7 @@ class WelcomePage extends StatelessWidget {
               ),
               SizedBox(height: size.height / 13),
               Image.asset(
-                "assets/bg.png",
+                AppAssets.kWelcomeBg,
                 height: 320.h,
                 width: 320.w,
                 color: AppColors.tabColor,

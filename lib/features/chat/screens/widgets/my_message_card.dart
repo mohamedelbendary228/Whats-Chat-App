@@ -30,7 +30,7 @@ class MyMessageCard extends StatelessWidget {
         ),
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         child: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(10, 5, 5, 5),
+          padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 5, 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
