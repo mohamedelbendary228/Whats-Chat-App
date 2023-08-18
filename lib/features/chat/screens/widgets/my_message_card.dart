@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
+import 'package:whats_chat_app/core/enums/message_enum.dart';
+import 'package:whats_chat_app/features/chat/screens/widgets/displayed_message.dart';
 
 class MyMessageCard extends StatelessWidget {
   final String message;
   final String date;
+  final MessageEnum messageType;
 
-  const MyMessageCard({Key? key, required this.message, required this.date})
+  const MyMessageCard(
+      {Key? key,
+      required this.message,
+      required this.date,
+      required this.messageType})
       : super(key: key);
 
   @override
@@ -27,12 +34,8 @@ class MyMessageCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                message,
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
+              DisplayedMessage(message: message, messageType: messageType),
+              SizedBox(height: 5.h),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,

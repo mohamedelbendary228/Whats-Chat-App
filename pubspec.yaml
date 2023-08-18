@@ -50,6 +50,7 @@ dependencies:
   country_codes: ^2.2.0
   uuid: ^3.0.7
   intl: ^0.18.1
+  cached_network_image: ^3.2.3
 
 
 dev_dependencies:

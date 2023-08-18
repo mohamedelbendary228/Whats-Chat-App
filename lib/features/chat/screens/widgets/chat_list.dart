@@ -20,7 +20,6 @@ class ChatList extends ConsumerStatefulWidget {
 }
 
 class _ChatListState extends ConsumerState<ChatList> {
-
   final ScrollController scrollController = ScrollController();
 
   void scrollerToBottom() {
@@ -58,6 +57,7 @@ class _ChatListState extends ConsumerState<ChatList> {
                 return MyMessageCard(
                   message: chatData[index].text,
                   date: DateFormat.jmv().format(chatData[index].timeSent),
+                  messageType: chatData[index].type,
                 );
               }
               return SenderMessageCard(
