@@ -45,4 +45,8 @@ class AuthController {
       context: context,
     );
   }
+
+  Future<void> setUserState(bool isOnline) async {
+    await authRepository.setUserState(isOnline);
+  }
 }

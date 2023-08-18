@@ -21,6 +21,8 @@ class AuthRepository {
     required this.firestore,
   });
 
+
+
   Future<UserModel?> getCurrentUserData() async {
     var userData =
         await firestore.collection("users").doc(auth.currentUser?.uid).get();
@@ -31,6 +33,8 @@ class AuthRepository {
     return user;
   }
 
+
+  /// A stream of user data that update the ui based on it
   Stream<UserModel> userData(String uid) {
     return firestore
         .collection("users")
@@ -80,6 +84,7 @@ class AuthRepository {
     }
   }
 
+  /// Set the authenticated user data model to firestore
   Future<void> saveUserDataToFirestore({
     required String name,
     required File? profilePic,
@@ -116,5 +121,14 @@ class AuthRepository {
       showSnackBar(
           context: context, content: e.toString() ?? "Something went wrong!");
     }
+  }
+
+
+  /// update "isOnline" field in firestore
+  Future<void> setUserState(bool isOnline) async {
+    await firestore
+        .collection("users")
+        .doc(auth.currentUser!.uid)
+        .update({"isOnline": isOnline});
   }
 }
