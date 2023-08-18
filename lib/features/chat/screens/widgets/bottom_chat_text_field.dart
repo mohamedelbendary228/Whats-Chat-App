@@ -48,7 +48,6 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
     }
   }
 
-
   Future<void> sendTextMessage() async {
     if (isSendButtonVisible) {
       await ref.read(chatControllerProvider).sendTextMessage(
@@ -107,7 +106,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: selectImage,
                       icon: const Icon(
                         Icons.camera_alt,
                         color: Colors.grey,

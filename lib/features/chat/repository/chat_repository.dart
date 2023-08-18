@@ -64,7 +64,7 @@ class ChatRepository {
         .set(senderChatContact.toJson());
   }
 
-  Future<void> _saveMessageToMessageSubCollection({
+  Future<void> _saveMessageToMessagesCollection({
     required String receiverId,
     required String receiverUsername,
     required String senderUsername,
@@ -137,7 +137,7 @@ class ChatRepository {
       );
 
       /// and then send the message with the above additional info to the messages collection
-      _saveMessageToMessageSubCollection(
+      _saveMessageToMessagesCollection(
         receiverId: receiverId,
         receiverUsername: receiverUserData.name,
         senderUsername: senderData.name,
@@ -208,7 +208,7 @@ class ChatRepository {
       );
 
       /// and then send the message with the above additional info to the messages collection
-      _saveMessageToMessageSubCollection(
+      _saveMessageToMessagesCollection(
         receiverId: receiverId,
         receiverUsername: receiverUserData.name,
         senderUsername: currentUserData.name,
