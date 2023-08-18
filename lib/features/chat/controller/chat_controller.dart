@@ -18,6 +18,7 @@ class ChatController {
     required String text,
     required String receiverId,
   }) async {
+    /// we use ref.read(userDataProvider) to get the current user data
     ref.read(userDataProvider).whenData(
       (userData) async {
         await chatRepository.sendTextMessage(
@@ -39,6 +40,7 @@ class ChatController {
     required receiverId,
     required MessageEnum messageEnum,
   }) async {
+    /// we use ref.read(userDataProvider) to get the current user data
     ref.read(userDataProvider).whenData(
       (userData) async {
         return chatRepository.sendFileMessage(

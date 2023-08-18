@@ -26,16 +26,14 @@ class ChatRepository {
     required DateTime timeSent,
     required String receiverId,
   }) async {
-    /*
-    we sent a request to firestore to sava the receiver and sender data and later we will display it
-    on main chats list view (our messages and their messages).
-    the following line shows how we store this data on firestore to show their messages and data.
-    users collection -> receiver user id doc -> chats collection -> current user id doc -> set data
-    then do another request with the following firestore collection and docs to show my messages and data
-    users collection -> current user id doc -> chats collection -> receiver user id doc -> set data
-    */
+    /// we sent a request to firestore to sava the receiver and sender data and later we will display it
+    /// on main chats list view (our messages and their messages).
+    /// the following line shows how we store this data on firestore to show their messages and data.
+    /// users collection -> receiver user id doc -> chats collection -> current user id doc -> set data
+    /// then do another request with the following firestore collection and docs to show my messages and data
+    /// users collection -> current user id doc -> chats collection -> receiver user id doc -> set data
 
-    // users collection -> receiver user id doc -> chats collection -> current user id doc -> set data
+    /// users collection -> receiver user id doc -> chats collection -> current user id doc -> set data
     var receiverChatContact = ChatContact(
         name: senderData.name,
         profilePic: senderData.profilePic,
@@ -50,7 +48,7 @@ class ChatRepository {
         .doc(firebaseAuth.currentUser!.uid)
         .set(receiverChatContact.toJson());
 
-    //users collection -> current user id doc -> chats collection -> receiver user id doc -> set data
+    ///users collection -> current user id doc -> chats collection -> receiver user id doc -> set data
     var senderChatContact = ChatContact(
         name: receiverData.name,
         profilePic: receiverData.profilePic,
@@ -75,7 +73,13 @@ class ChatRepository {
     required DateTime timeSent,
     required MessageEnum messageType,
   }) async {
-    // users collection -> sender user id doc -> chats collection -> receiver user id doc -> message collection -> message id doc -> store message
+    /// Initialize a messageModel and save it to the following firestore collections
+    /// note: we save the message model to firestore collection two times with two different paths
+    /// like in [_saveDataToChatsContactsCollection] method
+    /// Path for the current user [sender] and Path for fro the receiver user
+
+    /// Current User Path [Sender]
+    /// users collection -> sender user id doc -> chats collection -> receiver user id doc -> message collection -> message id doc -> store message
     final messageModel = MessageModel(
       senderId: firebaseAuth.currentUser!.uid,
       receiverId: receiverId,
@@ -85,7 +89,6 @@ class ChatRepository {
       messageId: messageId,
       isSeen: false,
     );
-
     await firestore
         .collection("users")
         .doc(firebaseAuth.currentUser!.uid)
@@ -95,7 +98,8 @@ class ChatRepository {
         .doc(messageId)
         .set(messageModel.toJson());
 
-    // users collection -> receiver user id doc  -> chats collection -> sender user id doc  -> message collection -> message id doc -> store message
+    /// receiver User Path
+    /// users collection -> receiver user id doc  -> chats collection -> sender user id doc  -> message collection -> message id doc -> store message
     await firestore
         .collection("users")
         .doc(receiverId)
@@ -106,6 +110,7 @@ class ChatRepository {
         .set(messageModel.toJson());
   }
 
+  /// Using this method when send Text message only
   Future<void> sendTextMessage({
     required BuildContext context,
     required String text,
@@ -113,16 +118,16 @@ class ChatRepository {
     required UserModel senderData,
   }) async {
     try {
+      /// initialize the following objects to use it when send data to chatsContacts and messages collection
       var timeSent = DateTime.now();
-      UserModel receiverUserData;
-
-      var userDataJson =
-          await firestore.collection("users").doc(receiverId).get();
-
       var messageId = const Uuid().v1();
 
+      UserModel receiverUserData;
+      var userDataJson =
+          await firestore.collection("users").doc(receiverId).get();
       receiverUserData = UserModel.fromJson(userDataJson.data()!);
 
+      /// we send the above data to the chats contacts collection to show it in to show it in [ChatContactListTile
       _saveDataToChatsContactsCollection(
         senderData: senderData,
         receiverData: receiverUserData,
@@ -131,6 +136,7 @@ class ChatRepository {
         text: text,
       );
 
+      /// and then send the message with the above additional info to the messages collection
       _saveMessageToMessageSubCollection(
         receiverId: receiverId,
         receiverUsername: receiverUserData.name,
@@ -146,6 +152,78 @@ class ChatRepository {
     }
   }
 
+  /// Using this method when send file message like Image, video, Audio or GIF
+  Future<void> sendFileMessage({
+    required BuildContext context,
+    required File file,
+    required receiverId,
+    required UserModel currentUserData,
+    required ProviderRef ref,
+    required MessageEnum messageEnum,
+  }) async {
+    try {
+      /// initialize the following objects to use it when send data to chatsContacts and messages collection
+      DateTime timeSent = DateTime.now();
+      String messageId = const Uuid().v1();
+
+      UserModel receiverUserData;
+      var userDataJson =
+          await firestore.collection("users").doc(receiverId).get();
+      receiverUserData = UserModel.fromJson(userDataJson.data()!);
+
+      /// Upload the file to firebase storage through [CommonFirebaseStorageRepository] class and get the uploaded Url
+      String imageUrl = await ref
+          .read(commonFirebaseStorageRepositoryProvider)
+          .storeFileToFirebase(
+              "chats/${messageEnum.type}/${currentUserData.uid}/$receiverId/$messageId",
+              file);
+
+      /// we declared a variable [contactMessage] and assign a value to it based on messageEnum
+      /// to show it in [ChatContactListTile]
+      String contactMessage;
+      switch (messageEnum) {
+        case MessageEnum.image:
+          contactMessage = "📷 Photo";
+          break;
+        case MessageEnum.audio:
+          contactMessage = "🎵 Audio";
+          break;
+        case MessageEnum.video:
+          contactMessage = "📸 Video";
+          break;
+        case MessageEnum.gif:
+          contactMessage = "GIF";
+          break;
+        default:
+          contactMessage = "GIF";
+      }
+
+      /// we send the above data to the chats contacts collection to show it in to show it in [ChatContactListTile]
+      _saveDataToChatsContactsCollection(
+        senderData: currentUserData,
+        receiverData: receiverUserData,
+        text: contactMessage,
+        timeSent: timeSent,
+        receiverId: receiverId,
+      );
+
+      /// and then send the message with the above additional info to the messages collection
+      _saveMessageToMessageSubCollection(
+        receiverId: receiverId,
+        receiverUsername: receiverUserData.name,
+        senderUsername: currentUserData.name,
+        message: imageUrl,
+        messageId: messageId,
+        timeSent: timeSent,
+        messageType: messageEnum,
+      );
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+      rethrow;
+    }
+  }
+
+  /// Using this method on chat screen to get the chat
   Stream<List<MessageModel>> getChatStream(String receiverId) {
     final chatStreamList = firestore
         .collection("users")
@@ -166,72 +244,5 @@ class ChatRepository {
       },
     );
     return chatStreamList;
-  }
-
-  Future<void> sendFileMessage({
-    required BuildContext context,
-    required File file,
-    required receiverId,
-    required UserModel currentUserData,
-    required ProviderRef ref,
-    required MessageEnum messageEnum,
-  }) async {
-    try {
-      DateTime timeSent = DateTime.now();
-      String messageId = const Uuid().v1();
-
-      String imageUrl = await ref
-          .read(commonFirebaseStorageRepositoryProvider)
-          .storeFileToFirebase(
-              "chats/${messageEnum.type}/${currentUserData.uid}/$receiverId/$messageId",
-              file);
-
-      UserModel receiverUserData;
-      var receiverDataMap =
-          await firestore.collection("users").doc(receiverId).get();
-
-      receiverUserData = UserModel.fromJson(receiverDataMap.data()!);
-
-      String contactMessage;
-
-      switch (messageEnum) {
-        case MessageEnum.image:
-          contactMessage = "📷 Photo";
-          break;
-        case MessageEnum.audio:
-          contactMessage = "🎵 Audio";
-          break;
-        case MessageEnum.video:
-          contactMessage = "📸 Video";
-          break;
-        case MessageEnum.gif:
-          contactMessage = "GIF";
-          break;
-        default:
-          contactMessage = "GIF";
-      }
-
-      _saveDataToChatsContactsCollection(
-        senderData: currentUserData,
-        receiverData: receiverUserData,
-        text: contactMessage,
-        timeSent: timeSent,
-        receiverId: receiverId,
-      );
-
-      _saveMessageToMessageSubCollection(
-          receiverId: receiverId,
-          receiverUsername: receiverUserData.name,
-          senderUsername: currentUserData.name,
-          message: imageUrl,
-          messageId: messageId,
-          timeSent: timeSent,
-          messageType: messageEnum,
-      );
-
-    } catch (e) {
-      showSnackBar(context: context, content: e.toString());
-      rethrow;
-    }
   }
 }
