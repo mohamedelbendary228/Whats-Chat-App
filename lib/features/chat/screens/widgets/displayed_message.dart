@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/core/constants/app_assets.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
+import 'package:whats_chat_app/features/chat/screens/widgets/cached_image_widget.dart';
+import 'package:whats_chat_app/features/chat/screens/widgets/cached_video_widget.dart';
 
 class DisplayedMessage extends StatelessWidget {
   final String message;
@@ -21,27 +23,8 @@ class DisplayedMessage extends StatelessWidget {
               fontSize: 16,
             ),
           )
-        : CachedNetworkImage(
-            imageUrl: message,
-            fit: BoxFit.fill,
-            placeholder: (context, _) => SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: Opacity(
-                      opacity: 0.5,
-                      child: Icon(Icons.photo_camera_back,
-                          size: MediaQuery.of(context).size.width * 0.5)),
-                ),
-            errorWidget: (context, _, __) => Column(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: Opacity(
-                          opacity: 0.5,
-                          child: Icon(Icons.photo_camera_back,
-                              size: MediaQuery.of(context).size.width * 0.5)),
-                    ),
-                    const Text(("Failed to load photo"))
-                  ],
-                ));
+        : messageType == MessageEnum.video
+            ? CachedVideoWidget(videoUrl: message)
+            : CachedImageWidget(imageUrl: message);
   }
 }

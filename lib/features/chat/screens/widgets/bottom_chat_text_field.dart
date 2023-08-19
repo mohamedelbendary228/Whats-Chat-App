@@ -48,6 +48,13 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
     }
   }
 
+  Future<void> selectVideo() async {
+    File? video = await pickVideoFromGallery(context);
+    if (video != null) {
+      sendFileMessage(video, MessageEnum.video);
+    }
+  }
+
   Future<void> sendTextMessage() async {
     if (isSendButtonVisible) {
       await ref.read(chatControllerProvider).sendTextMessage(
@@ -63,7 +70,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
         context: context,
         file: file,
         receiverId: widget.receiverId,
-        messageEnum: MessageEnum.image);
+        messageEnum: messageEnum);
   }
 
   @override
@@ -113,7 +120,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: selectVideo,
                       icon: const Icon(
                         Icons.attach_file,
                         color: Colors.grey,
