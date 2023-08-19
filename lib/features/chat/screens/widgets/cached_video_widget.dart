@@ -1,69 +1,74 @@
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/services.dart';
+import 'package:better_player/better_player.dart';
 
-class CachedVideoWidget extends StatefulWidget {
+class VideoItemWidget extends StatefulWidget {
   final String videoUrl;
 
-  const CachedVideoWidget({Key? key, required this.videoUrl}) : super(key: key);
+  const VideoItemWidget({Key? key, required this.videoUrl}) : super(key: key);
 
   @override
-  State<CachedVideoWidget> createState() => _CachedVideoWidgetState();
+  State<VideoItemWidget> createState() => _VideoItemWidgetState();
 }
 
-class _CachedVideoWidgetState extends State<CachedVideoWidget> {
-  late CachedVideoPlayerController videoPlayerController;
-
-  bool isPlaying = false;
-  bool finishPlaying = false;
+class _VideoItemWidgetState extends State<VideoItemWidget> {
+  late BetterPlayerController _betterPlayerController;
+  late BetterPlayerDataSource _betterPlayerDataSource;
 
   @override
   void initState() {
     super.initState();
-    videoPlayerController = CachedVideoPlayerController.network(widget.videoUrl)
-      ..initialize().then((_) {
-        videoPlayerController.setVolume(1);
-        videoPlayerController.setLooping(true);
-      });
+    _betterPlayerDataSource = BetterPlayerDataSource(
+      BetterPlayerDataSourceType.network,
+      widget.videoUrl,
+      cacheConfiguration: BetterPlayerCacheConfiguration(
+        useCache: true,
+        preCacheSize: 10 * 1024 * 1024,
+        maxCacheSize: 10 * 1024 * 1024,
+        maxCacheFileSize: 10 * 1024 * 1024,
 
+        ///Android only option to use cached video between app sessions
+        key: widget.videoUrl,
+      ),
+    );
+    BetterPlayerConfiguration betterPlayerConfiguration =
+        const BetterPlayerConfiguration(
+      aspectRatio: 16 / 9,
+      allowedScreenSleep: false,
+      controlsConfiguration: BetterPlayerControlsConfiguration(
+        enableFullscreen: false,
+        enableProgressBar: false,
+        enableSubtitles: false,
+        enableAudioTracks: false,
+        enablePlaybackSpeed: false,
+        enablePip: false,
+        enableProgressBarDrag: false,
+        enableMute: false,
+        enableProgressText: false,
+        enableQualities: false,
+        controlBarColor: Colors.black12,
+        enablePlayPause: false,
+        enableSkips: false,
+      ),
+    );
+    _betterPlayerController = BetterPlayerController(
+      betterPlayerConfiguration,
+      betterPlayerDataSource: _betterPlayerDataSource,
+    );
   }
 
   @override
   void dispose() {
     super.dispose();
-    videoPlayerController.dispose();
-  }
-
-  void playOrPauseVideo() {
-    if (videoPlayerController.value.isPlaying) {
-      videoPlayerController.pause();
-      setState(() {
-        isPlaying = false;
-      });
-    } else {
-      videoPlayerController.play();
-      setState(() {
-        isPlaying = true;
-      });
-    }
+    _betterPlayerController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 16 / 9,
-      child: Stack(
-        children: [
-          CachedVideoPlayer(videoPlayerController),
-          Align(
-            alignment: Alignment.center,
-            child: IconButton(
-              onPressed: playOrPauseVideo,
-              icon: Icon(isPlaying ? Icons.pause_circle : Icons.play_circle,
-                  size: 40.sp),
-            ),
-          )
-        ],
+      child: BetterPlayer(
+        controller: _betterPlayerController,
       ),
     );
   }

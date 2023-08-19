@@ -51,7 +51,7 @@ dependencies:
   uuid: ^3.0.7
   intl: ^0.18.1
   cached_network_image: ^3.2.3
-  cached_video_player: ^2.0.4
+  better_player: ^0.0.83
 
 
 dev_dependencies:
