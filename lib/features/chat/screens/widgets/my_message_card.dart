@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
 import 'package:whats_chat_app/features/chat/screens/widgets/displayed_message.dart';
@@ -18,11 +17,12 @@ class MyMessageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
         constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width - 45,
+          maxWidth: size.width - 45,
         ),
         decoration: const BoxDecoration(
           color: AppColors.messageColor,
@@ -35,7 +35,7 @@ class MyMessageCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               DisplayedMessage(message: message, messageType: messageType),
-              SizedBox(height: 5.h),
+              const SizedBox(height: 5),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,

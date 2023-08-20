@@ -36,6 +36,7 @@ class _VideoItemWidgetState extends State<VideoItemWidget> {
       aspectRatio: 16 / 9,
       allowedScreenSleep: false,
       controlsConfiguration: BetterPlayerControlsConfiguration(
+        enableOverflowMenu: false,
         enableFullscreen: false,
         enableProgressBar: false,
         enableSubtitles: false,

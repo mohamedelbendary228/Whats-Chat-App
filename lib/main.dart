@@ -7,7 +7,6 @@ import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/firebase_options.dart';
 import 'package:whats_chat_app/router.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -23,6 +22,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
+      /// It's Important to be true to enable Material MediaQuery()
+      useInheritedMediaQuery: true,
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {

@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
@@ -75,8 +73,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("text field rebuild");
-    debugPrint("padding ${MediaQuery.of(context).viewInsets.bottom}");
+    final size = MediaQuery.sizeOf(context);
     return Row(
       children: [
         Expanded(
@@ -87,10 +84,11 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
               filled: true,
               fillColor: AppColors.mobileChatBoxColor,
               prefixIcon: SizedBox(
-                width: 100.w,
+                width: size.width * 0.25,
                 child: Row(
                   children: [
                     IconButton(
+                      padding: EdgeInsets.zero,
                       onPressed: () {},
                       icon: const Icon(
                         Icons.emoji_emotions,
@@ -98,6 +96,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                       ),
                     ),
                     IconButton(
+                      padding: EdgeInsets.zero,
                       onPressed: () {},
                       icon: const Icon(
                         Icons.gif,
@@ -108,11 +107,12 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                 ),
               ),
               suffixIcon: SizedBox(
-                width: 100.w,
+                width: size.width * 0.25,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
+                      padding: EdgeInsets.zero,
                       onPressed: selectImage,
                       icon: const Icon(
                         Icons.camera_alt,
@@ -120,6 +120,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                       ),
                     ),
                     IconButton(
+                      padding: EdgeInsets.zero,
                       onPressed: selectVideo,
                       icon: const Icon(
                         Icons.attach_file,
@@ -142,7 +143,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(bottom: 8.h, right: 5.w, left: 8.w),
+          padding: const EdgeInsets.only(bottom: 8, right: 5, left: 8),
           child: CircleAvatar(
             backgroundColor: AppColors.sendMessageButtonColor,
             radius: 25,
