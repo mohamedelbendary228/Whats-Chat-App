@@ -20,7 +20,7 @@ class ChatList extends ConsumerStatefulWidget {
 class _ChatListState extends ConsumerState<ChatList> {
   final ScrollController scrollController = ScrollController();
 
-  void scrollerToBottom(int length, BuildContext context) {
+  void scrollerToBottom() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
     });
@@ -33,10 +33,12 @@ class _ChatListState extends ConsumerState<ChatList> {
   }
 
   late Stream<List<MessageModel>> chatStream;
+
   @override
   void initState() {
     super.initState();
-    chatStream = ref.read(chatControllerProvider).getChatStream(widget.receiverId);
+    chatStream =
+        ref.read(chatControllerProvider).getChatStream(widget.receiverId);
   }
 
   @override
@@ -44,36 +46,37 @@ class _ChatListState extends ConsumerState<ChatList> {
     debugPrint("ChatList rebuild");
     final size = MediaQuery.sizeOf(context);
     return StreamBuilder<List<MessageModel>>(
-        stream: chatStream,
-        builder: (context, snapshot) {
-          final chatData = snapshot.data;
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if(snapshot.connectionState == ConnectionState.active) {
-            scrollerToBottom(chatData!.length, context);
-            return ListView.builder(
-              controller: scrollController,
-              cacheExtent: size.height,
-              itemCount: chatData.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                if (chatData[index].senderId ==
-                    FirebaseAuth.instance.currentUser!.uid) {
-                  return MyMessageCard(
-                    message: chatData[index].text,
-                    date: DateFormat.jmv().format(chatData[index].timeSent),
-                    messageType: chatData[index].type,
-                  );
-                }
-                return SenderMessageCard(
+      stream: chatStream,
+      builder: (context, snapshot) {
+        final chatData = snapshot.data;
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.connectionState == ConnectionState.active) {
+          scrollerToBottom();
+          return ListView.builder(
+            controller: scrollController,
+            cacheExtent: size.height,
+            itemCount: chatData!.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              if (chatData[index].senderId ==
+                  FirebaseAuth.instance.currentUser!.uid) {
+                return MyMessageCard(
                   message: chatData[index].text,
                   date: DateFormat.jmv().format(chatData[index].timeSent),
                   messageType: chatData[index].type,
                 );
-              },
-            );
-          }
-         return const SizedBox.shrink();
-        });
+              }
+              return SenderMessageCard(
+                message: chatData[index].text,
+                date: DateFormat.jmv().format(chatData[index].timeSent),
+                messageType: chatData[index].type,
+              );
+            },
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
   }
 }
