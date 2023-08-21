@@ -77,9 +77,15 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
     });
   }
 
-  void showKeyboard() {}
+  void showKeyboard() {
+    debugPrint("requestFocussss");
+    FocusScope.of(context).requestFocus();
+  }
 
-  void hideKeyboard() {}
+  void hideKeyboard() {
+    debugPrint("unfocus");
+    FocusScope.of(context).unfocus();
+  }
 
   void toggleEmojiPicker() {
     if (isEmojiPickerVisible) {
@@ -102,6 +108,11 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    if(FocusScope.of(context).hasFocus && isEmojiPickerVisible) {
+      setState(() {
+        isEmojiPickerVisible = false;
+      });
+    }
     return Column(
       children: [
         Row(
@@ -184,16 +195,25 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
             )
           ],
         ),
-        SizedBox(
-          height: size.height * 0.36,
-          child: EmojiPicker(
-            onEmojiSelected: (category, emoji) {
-              setState(() {
-                messageController.text = messageController.text + emoji.emoji;
-              });
-            },
-          ),
-        ),
+        isEmojiPickerVisible
+            ? SizedBox(
+                height: size.height * 0.36,
+                child: EmojiPicker(
+                  onEmojiSelected: (category, emoji) {
+                    setState(() {
+                      messageController.text =
+                          messageController.text + emoji.emoji;
+                    });
+
+                    if(!isSendButtonVisible) {
+                      setState(() {
+                        isSendButtonVisible = true;
+                      });
+                    }
+                  },
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }
