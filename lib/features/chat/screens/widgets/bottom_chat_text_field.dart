@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:enough_giphy_flutter/enough_giphy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/colors.dart';
@@ -58,9 +59,11 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
   Future<void> sendTextMessage() async {
     if (isSendButtonVisible) {
       await ref.read(chatControllerProvider).sendTextMessage(
-          context: context,
-          text: messageController.text.trim(),
-          receiverId: widget.receiverId);
+            context: context,
+            text: messageController.text.trim(),
+            receiverId: widget.receiverId,
+            isGifMessage: false,
+          );
       messageController.clear();
     }
   }
@@ -78,12 +81,10 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
   }
 
   void showKeyboard() {
-    debugPrint("requestFocussss");
     FocusScope.of(context).requestFocus();
   }
 
   void hideKeyboard() {
-    debugPrint("unfocus");
     FocusScope.of(context).unfocus();
   }
 
@@ -105,10 +106,25 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
         messageEnum: messageEnum);
   }
 
+  Future<void> selectGIF() async {
+    GiphyGif? gif = await pickGIF(context);
+    if (gif != null) {
+      if (mounted) {
+        await ref.read(chatControllerProvider).sendTextMessage(
+              context: context,
+              text: "",
+              isGifMessage: true,
+              gifUrl: gif.url,
+              receiverId: widget.receiverId,
+            );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    if(FocusScope.of(context).hasFocus && isEmojiPickerVisible) {
+    if (FocusScope.of(context).hasFocus && isEmojiPickerVisible) {
       setState(() {
         isEmojiPickerVisible = false;
       });
@@ -138,7 +154,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                         ),
                         IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: () {},
+                          onPressed: selectGIF,
                           icon: const Icon(
                             Icons.gif,
                             color: Colors.grey,
@@ -205,7 +221,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                           messageController.text + emoji.emoji;
                     });
 
-                    if(!isSendButtonVisible) {
+                    if (!isSendButtonVisible) {
                       setState(() {
                         isSendButtonVisible = true;
                       });

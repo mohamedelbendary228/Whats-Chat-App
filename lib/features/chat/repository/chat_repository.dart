@@ -110,12 +110,14 @@ class ChatRepository {
         .set(messageModel.toJson());
   }
 
-  /// Using this method when send Text message only
-  Future<void> sendTextMessage({
+  /// Using this method when send Text message or GIF Message
+  Future<void> sendTextOrGIFMessage({
     required BuildContext context,
     required String text,
     required String receiverId,
     required UserModel senderData,
+    required bool isGifMessage,
+    String? gifUrl,
   }) async {
     try {
       /// initialize the following objects to use it when send data to chatsContacts and messages collection
@@ -133,7 +135,7 @@ class ChatRepository {
         receiverData: receiverUserData,
         receiverId: receiverId,
         timeSent: timeSent,
-        text: text,
+        text: isGifMessage ? "GIF" : text,
       );
 
       /// and then send the message with the above additional info to the messages collection
@@ -141,10 +143,10 @@ class ChatRepository {
         receiverId: receiverId,
         receiverUsername: receiverUserData.name,
         senderUsername: senderData.name,
-        message: text,
+        message: isGifMessage ? gifUrl ?? "" : text,
         messageId: messageId,
         timeSent: timeSent,
-        messageType: MessageEnum.text,
+        messageType: isGifMessage ? MessageEnum.gif : MessageEnum.text,
       );
     } catch (e) {
       showSnackBar(context: context, content: e.toString());

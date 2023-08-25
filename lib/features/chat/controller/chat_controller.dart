@@ -17,15 +17,20 @@ class ChatController {
     required BuildContext context,
     required String text,
     required String receiverId,
+    required isGifMessage,
+    String? gifUrl,
   }) async {
     /// we use ref.read(userDataProvider) to get the current user data
     ref.read(userDataProvider).whenData(
       (userData) async {
-        await chatRepository.sendTextMessage(
-            context: context,
-            text: text,
-            receiverId: receiverId,
-            senderData: userData!);
+        await chatRepository.sendTextOrGIFMessage(
+          context: context,
+          text: text,
+          receiverId: receiverId,
+          senderData: userData!,
+          gifUrl: gifUrl,
+          isGifMessage: isGifMessage,
+        );
       },
     );
   }
