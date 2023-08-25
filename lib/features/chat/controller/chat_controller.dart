@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whats_chat_app/core/constants/app_constants.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
 import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
 import 'package:whats_chat_app/features/chat/repository/chat_repository.dart';
@@ -13,13 +14,22 @@ class ChatController {
 
   ChatController({required this.chatRepository, required this.ref});
 
-  Future<void> sendTextMessage({
+  Future<void> sendTextOrGIFMessage({
     required BuildContext context,
     required String text,
     required String receiverId,
     required isGifMessage,
     String? gifUrl,
   }) async {
+    String formattedGIFUrl = "";
+    if (isGifMessage) {
+      /// We need to convert the url coming from giph to another format to work in flutter
+      /// which is this format [https://i.giphy.com/media/"gif-name"/200.gif]
+      int gifNameStartIndex = gifUrl!.lastIndexOf("-") + 1;
+      String gifName = gifUrl.substring(gifNameStartIndex);
+      formattedGIFUrl = "${AppConstants.GIPHY_URL_SCHEME}$gifName/200.gif";
+    }
+
     /// we use ref.read(userDataProvider) to get the current user data
     ref.read(userDataProvider).whenData(
       (userData) async {
@@ -28,7 +38,7 @@ class ChatController {
           text: text,
           receiverId: receiverId,
           senderData: userData!,
-          gifUrl: gifUrl,
+          gifUrl: formattedGIFUrl,
           isGifMessage: isGifMessage,
         );
       },

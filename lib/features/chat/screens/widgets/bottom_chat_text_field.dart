@@ -58,7 +58,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
 
   Future<void> sendTextMessage() async {
     if (isSendButtonVisible) {
-      await ref.read(chatControllerProvider).sendTextMessage(
+      await ref.read(chatControllerProvider).sendTextOrGIFMessage(
             context: context,
             text: messageController.text.trim(),
             receiverId: widget.receiverId,
@@ -110,7 +110,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
     GiphyGif? gif = await pickGIF(context);
     if (gif != null) {
       if (mounted) {
-        await ref.read(chatControllerProvider).sendTextMessage(
+        await ref.read(chatControllerProvider).sendTextOrGIFMessage(
               context: context,
               text: "",
               isGifMessage: true,
