@@ -36,7 +36,7 @@ class SenderMessageCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DisplayedMessage(message: message, messageType: messageType),
+              DisplayedMessage(message: message, messageType: messageType, isMe: false),
               const SizedBox(height: 3),
               Text(
                 date,
