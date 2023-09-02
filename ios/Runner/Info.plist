@@ -54,6 +54,8 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>WhatChatApp need access to the microphone</string>
 	<key>NSContactsUsageDescription</key>
-	 <string>WhatChatApp need access to the contact list</string>
+	<string>WhatChatApp need access to the contact list</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>WhatsChatApp need to recoding audio</string>
 </dict>
 </plist>

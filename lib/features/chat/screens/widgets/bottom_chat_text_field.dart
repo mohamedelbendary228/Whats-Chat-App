@@ -4,6 +4,9 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:enough_giphy_flutter/enough_giphy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
@@ -20,15 +23,71 @@ class BottomChatTextField extends ConsumerStatefulWidget {
 
 class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
   final TextEditingController messageController = TextEditingController();
+  FlutterSoundRecorder? _soundRecorder;
+
+  bool isSendButtonVisible = false;
+  bool isEmojiPickerVisible = false;
+  bool isRecorderInit = false;
+  bool isRecording = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _soundRecorder = FlutterSoundRecorder();
+    openAudio();
+  }
 
   @override
   void dispose() {
     super.dispose();
     messageController.dispose();
+    _soundRecorder!.closeRecorder();
+    isRecorderInit = false;
   }
 
-  bool isSendButtonVisible = false;
-  bool isEmojiPickerVisible = false;
+  Future<void> openAudio() async {
+    final status = await Permission.microphone.request();
+    if (status != PermissionStatus.granted) {
+      throw RecordingPermissionException("Mic permission not allowed!");
+    }
+    await _soundRecorder!.openRecorder();
+    isRecorderInit = true;
+  }
+
+  Future<void> sendMessage() async {
+    if (isSendButtonVisible) {
+      await ref.read(chatControllerProvider).sendTextOrGIFMessage(
+            context: context,
+            text: messageController.text.trim(),
+            receiverId: widget.receiverId,
+            isGifMessage: false,
+          );
+      messageController.clear();
+    } else {
+      final tempDir = await getTemporaryDirectory();
+      String path = "${tempDir.path}/WhatsChatSound.aac";
+      if (!isRecorderInit) {
+        return;
+      }
+      if (isRecording) {
+        await _soundRecorder!.stopRecorder();
+        sendFileMessage(File(path), MessageEnum.audio);
+      } else {
+        await _soundRecorder!.startRecorder(toFile: path);
+      }
+      setState(() {
+        isRecording = !isRecording;
+      });
+    }
+  }
+
+  Future<void> sendFileMessage(File file, MessageEnum messageEnum) async {
+    await ref.read(chatControllerProvider).sendFileMessage(
+        context: context,
+        file: file,
+        receiverId: widget.receiverId,
+        messageEnum: messageEnum);
+  }
 
   void toggleSendButton(String val) {
     if (val.isNotEmpty) {
@@ -56,15 +115,18 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
     }
   }
 
-  Future<void> sendTextMessage() async {
-    if (isSendButtonVisible) {
-      await ref.read(chatControllerProvider).sendTextOrGIFMessage(
-            context: context,
-            text: messageController.text.trim(),
-            receiverId: widget.receiverId,
-            isGifMessage: false,
-          );
-      messageController.clear();
+  Future<void> selectGIF() async {
+    GiphyGif? gif = await pickGIF(context);
+    if (gif != null) {
+      if (mounted) {
+        await ref.read(chatControllerProvider).sendTextOrGIFMessage(
+              context: context,
+              text: "",
+              isGifMessage: true,
+              gifUrl: gif.url,
+              receiverId: widget.receiverId,
+            );
+      }
     }
   }
 
@@ -98,29 +160,6 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
     }
   }
 
-  Future<void> sendFileMessage(File file, MessageEnum messageEnum) async {
-    await ref.read(chatControllerProvider).sendFileMessage(
-        context: context,
-        file: file,
-        receiverId: widget.receiverId,
-        messageEnum: messageEnum);
-  }
-
-  Future<void> selectGIF() async {
-    GiphyGif? gif = await pickGIF(context);
-    if (gif != null) {
-      if (mounted) {
-        await ref.read(chatControllerProvider).sendTextOrGIFMessage(
-              context: context,
-              text: "",
-              isGifMessage: true,
-              gifUrl: gif.url,
-              receiverId: widget.receiverId,
-            );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -141,7 +180,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                   filled: true,
                   fillColor: AppColors.mobileChatBoxColor,
                   prefixIcon: SizedBox(
-                    width: size.width * 0.25,
+                    width: size.width * 0.30,
                     child: Row(
                       children: [
                         IconButton(
@@ -164,7 +203,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                     ),
                   ),
                   suffixIcon: SizedBox(
-                    width: size.width * 0.25,
+                    width: size.width * 0.30,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -205,8 +244,15 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                 backgroundColor: AppColors.sendMessageButtonColor,
                 radius: 25,
                 child: GestureDetector(
-                    onTap: sendTextMessage,
-                    child: Icon(isSendButtonVisible ? Icons.send : Icons.mic)),
+                  onTap: sendMessage,
+                  child: Icon(
+                    isSendButtonVisible
+                        ? Icons.send
+                        : isRecording
+                            ? Icons.close
+                            : Icons.mic,
+                  ),
+                ),
               ),
             )
           ],
