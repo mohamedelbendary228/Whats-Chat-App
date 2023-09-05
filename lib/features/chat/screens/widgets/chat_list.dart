@@ -55,7 +55,7 @@ class _ChatListState extends ConsumerState<ChatList> {
           scrollerToBottom();
           return ListView.builder(
             controller: scrollController,
-            cacheExtent: size.height,
+            cacheExtent: size.height * 2,
             itemCount: chatData!.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {

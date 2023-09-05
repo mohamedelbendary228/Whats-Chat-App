@@ -23,7 +23,7 @@ class AudioMessageWidget extends StatelessWidget {
       formatDuration: (duration){
         return duration.toString().substring(2,7);
       },
-      
+
     );
   }
 }
