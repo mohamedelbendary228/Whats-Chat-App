@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:whats_chat_app/core/enums/message_enum.dart';
+import 'package:whats_chat_app/core/providers/message_reply_provider.dart';
 import 'package:whats_chat_app/features/chat/provider/chat_provider.dart';
 import 'package:whats_chat_app/features/chat/screens/widgets/sender_message_card.dart';
 import 'package:whats_chat_app/features/chat/screens/widgets/my_message_card.dart';
 import 'package:whats_chat_app/models/message_model.dart';
+import 'package:whats_chat_app/models/message_reply_model.dart';
 
 class ChatList extends ConsumerStatefulWidget {
   final String receiverId;
@@ -20,10 +23,13 @@ class ChatList extends ConsumerStatefulWidget {
 class _ChatListState extends ConsumerState<ChatList> {
   final ScrollController scrollController = ScrollController();
 
-  void scrollerToBottom() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
-    });
+  late Stream<List<MessageModel>> chatStream;
+
+  @override
+  void initState() {
+    super.initState();
+    chatStream =
+        ref.read(chatControllerProvider).getChatStream(widget.receiverId);
   }
 
   @override
@@ -32,13 +38,19 @@ class _ChatListState extends ConsumerState<ChatList> {
     scrollController.dispose();
   }
 
-  late Stream<List<MessageModel>> chatStream;
+  void scrollerToBottom() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    });
+  }
 
-  @override
-  void initState() {
-    super.initState();
-    chatStream =
-        ref.read(chatControllerProvider).getChatStream(widget.receiverId);
+  void onMessageSwiped({
+    required String message,
+    required bool isMe,
+    required MessageEnum messageEnum,
+  }) {
+    ref.read(messageReplyProvider.notifier).update((state) =>
+        MessageReply(message: message, isMe: isMe, messageEnum: messageEnum));
   }
 
   @override
@@ -65,6 +77,14 @@ class _ChatListState extends ConsumerState<ChatList> {
                   message: chatData[index].text,
                   date: DateFormat.jmv().format(chatData[index].timeSent),
                   messageType: chatData[index].type,
+                  repliedText: chatData[index].repliedMessage,
+                  username: chatData[index].repliedTo,
+                  repliedMessageType: chatData[index].repliedMessageType,
+                  onSwipeLeft: () => onMessageSwiped(
+                    message: chatData[index].text,
+                    isMe: true,
+                    messageEnum: chatData[index].type,
+                  ),
                 );
               }
               return SenderMessageCard(

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/core/constants/app_constants.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
+import 'package:whats_chat_app/core/providers/message_reply_provider.dart';
 import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
 import 'package:whats_chat_app/features/chat/repository/chat_repository.dart';
 import 'package:whats_chat_app/models/message_model.dart';
+import 'package:whats_chat_app/models/message_reply_model.dart';
 
 class ChatController {
   final ChatRepository chatRepository;
@@ -29,7 +31,7 @@ class ChatController {
       String gifName = gifUrl.substring(gifNameStartIndex);
       formattedGIFUrl = "${AppConstants.GIPHY_URL_SCHEME}$gifName/200.gif";
     }
-
+    final messageReply = ref.read(messageReplyProvider);
     /// we use ref.read(userDataProvider) to get the current user data
     ref.read(userDataProvider).whenData(
       (userData) async {
@@ -40,6 +42,7 @@ class ChatController {
           senderData: userData!,
           gifUrl: formattedGIFUrl,
           isGifMessage: isGifMessage,
+          messageReply: messageReply,
         );
       },
     );
@@ -55,6 +58,7 @@ class ChatController {
     required receiverId,
     required MessageEnum messageEnum,
   }) async {
+    final messageReply = ref.read(messageReplyProvider);
     /// we use ref.read(userDataProvider) to get the current user data
     ref.read(userDataProvider).whenData(
       (userData) async {
@@ -65,6 +69,7 @@ class ChatController {
           currentUserData: userData!,
           ref: ref,
           messageEnum: messageEnum,
+          messageReply: messageReply,
         );
       },
     );

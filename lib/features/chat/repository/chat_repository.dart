@@ -10,6 +10,7 @@ import 'package:whats_chat_app/core/repository/common_firbase_sotrage_repository
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/models/chat_contact_model.dart';
 import 'package:whats_chat_app/models/message_model.dart';
+import 'package:whats_chat_app/models/message_reply_model.dart';
 import 'package:whats_chat_app/models/user_model.dart';
 
 class ChatRepository {
@@ -72,6 +73,7 @@ class ChatRepository {
     required String messageId,
     required DateTime timeSent,
     required MessageEnum messageType,
+    required MessageReply? messageReply,
   }) async {
     /// Initialize a messageModel and save it to the following firestore collections
     /// note: we save the message model to firestore collection two times with two different paths
@@ -88,6 +90,13 @@ class ChatRepository {
       timeSent: timeSent,
       messageId: messageId,
       isSeen: false,
+      repliedMessage: messageReply == null ? "" : messageReply.message,
+      repliedTo: messageReply == null
+          ? ""
+          : messageReply.isMe
+              ? senderUsername
+              : receiverUsername,
+      repliedMessageType: messageReply == null ? MessageEnum.text : messageReply.messageEnum,
     );
     await firestore
         .collection("users")
@@ -117,6 +126,7 @@ class ChatRepository {
     required String receiverId,
     required UserModel senderData,
     required bool isGifMessage,
+    required MessageReply? messageReply,
     String? gifUrl,
   }) async {
     try {
@@ -147,6 +157,7 @@ class ChatRepository {
         messageId: messageId,
         timeSent: timeSent,
         messageType: isGifMessage ? MessageEnum.gif : MessageEnum.text,
+        messageReply: messageReply,
       );
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
@@ -162,6 +173,7 @@ class ChatRepository {
     required UserModel currentUserData,
     required ProviderRef ref,
     required MessageEnum messageEnum,
+    required MessageReply? messageReply,
   }) async {
     try {
       /// initialize the following objects to use it when send data to chatsContacts and messages collection
@@ -218,6 +230,7 @@ class ChatRepository {
         messageId: messageId,
         timeSent: timeSent,
         messageType: messageEnum,
+        messageReply: messageReply,
       );
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
