@@ -65,6 +65,12 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
             isGifMessage: false,
           );
       messageController.clear();
+      setState(() {
+        isSendButtonVisible = false;
+      });
+      ref
+          .read(messageReplyProvider.notifier)
+          .update((state) => null);
     } else {
       final tempDir = await getTemporaryDirectory();
       String path = "${tempDir.path}/WhatsChatSound.aac";
@@ -171,10 +177,9 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
       });
     }
     final messageReply = ref.watch(messageReplyProvider);
-    final bool isShowMessageReply = messageReply != null;
     return Column(
       children: [
-        isShowMessageReply
+        messageReply != null
             ? const MessageReplyPreview()
             : const SizedBox.shrink(),
         Row(

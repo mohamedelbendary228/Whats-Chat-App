@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
+import 'package:whats_chat_app/core/providers/message_reply_provider.dart';
 import 'package:whats_chat_app/features/chat/screens/widgets/displayed_message.dart';
 
-class MyMessageCard extends StatelessWidget {
+class MyMessageCard extends ConsumerWidget {
   final String message;
   final String date;
   final MessageEnum messageType;
@@ -25,8 +27,10 @@ class MyMessageCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.sizeOf(context);
+    final messageReply = ref.watch(messageReplyProvider);
+
     return SwipeTo(
       onLeftSwipe: onSwipeLeft,
       child: Align(
@@ -45,6 +49,23 @@ class MyMessageCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                /// Replied Message Preview
+                Container(
+                  height: repliedMessageType != MessageEnum.text ? 50 : repliedText.isNotEmpty? null : 0,
+                  width: repliedMessageType != MessageEnum.text ? 100 : repliedText.isNotEmpty? null : 0,
+                  margin:
+                  EdgeInsets.symmetric(horizontal: 5, vertical:  repliedText.isNotEmpty? 5 : 0),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.appBarColor.withOpacity(0.5),
+                    borderRadius: const BorderRadius.all(Radius.circular(15))
+                  ),
+                  child: DisplayedMessage(
+                    message: repliedText,
+                    messageType: repliedMessageType,
+                    isMe: true,
+                  ),
+                ),
                 DisplayedMessage(
                     message: message, messageType: messageType, isMe: true),
                 const SizedBox(height: 5),

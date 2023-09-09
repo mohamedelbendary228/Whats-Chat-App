@@ -49,13 +49,12 @@ class _ChatListState extends ConsumerState<ChatList> {
     required bool isMe,
     required MessageEnum messageEnum,
   }) {
-    ref.read(messageReplyProvider.notifier).update((state) =>
+    ref.read(messageReplyProvider.notifier).update((_) =>
         MessageReply(message: message, isMe: isMe, messageEnum: messageEnum));
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("ChatList rebuild");
     final size = MediaQuery.sizeOf(context);
     return StreamBuilder<List<MessageModel>>(
       stream: chatStream,
@@ -91,6 +90,14 @@ class _ChatListState extends ConsumerState<ChatList> {
                 message: chatData[index].text,
                 date: DateFormat.jmv().format(chatData[index].timeSent),
                 messageType: chatData[index].type,
+                repliedText: chatData[index].repliedMessage,
+                username: chatData[index].repliedTo,
+                repliedMessageType: chatData[index].repliedMessageType,
+                onSwipeRight: () => onMessageSwiped(
+                  message: chatData[index].text,
+                  isMe: false,
+                  messageEnum: chatData[index].type,
+                ),
               );
             },
           );

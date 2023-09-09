@@ -7,6 +7,7 @@ import 'package:whats_chat_app/features/chat/screens/widgets/displayed_message.d
 import 'package:whats_chat_app/models/message_reply_model.dart';
 
 class MessageReplyPreview extends ConsumerWidget {
+
   const MessageReplyPreview({super.key});
 
   @override

@@ -27,10 +27,8 @@ class DisplayedMessage extends StatelessWidget {
             : messageType == MessageEnum.video
                 ? VideoItemWidget(videoUrl: message)
                 : messageType == MessageEnum.gif
-
                     /// For GIF
                     ? CachedImageWidget(imageUrl: message)
-
                     /// For normal Images
                     : CachedImageWidget(imageUrl: message);
   }
