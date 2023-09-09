@@ -55,10 +55,10 @@ class MyMessageCard extends ConsumerWidget {
                   width: repliedMessageType != MessageEnum.text ? 100 : repliedText.isNotEmpty? null : 0,
                   margin:
                   EdgeInsets.symmetric(horizontal: 5, vertical:  repliedText.isNotEmpty? 5 : 0),
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                   decoration: BoxDecoration(
                     color: AppColors.appBarColor.withOpacity(0.5),
-                    borderRadius: const BorderRadius.all(Radius.circular(15))
+                    borderRadius: const BorderRadius.all(Radius.circular(5))
                   ),
                   child: DisplayedMessage(
                     message: repliedText,

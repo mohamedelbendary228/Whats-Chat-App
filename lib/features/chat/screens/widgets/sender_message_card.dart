@@ -62,11 +62,11 @@ class SenderMessageCard extends StatelessWidget {
                           : 0,
                   margin: EdgeInsets.symmetric(
                       horizontal: 5, vertical: repliedText.isNotEmpty ? 5 : 0),
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                   decoration: BoxDecoration(
-                      color: AppColors.appBarColor.withOpacity(0.5),
+                      color: AppColors.greyColor.withOpacity(0.2),
                       borderRadius:
-                          const BorderRadius.all(Radius.circular(15))),
+                          const BorderRadius.all(Radius.circular(5))),
                   child: DisplayedMessage(
                     message: repliedText,
                     messageType: repliedMessageType,
