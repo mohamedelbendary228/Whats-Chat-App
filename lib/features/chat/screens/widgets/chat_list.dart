@@ -70,6 +70,19 @@ class _ChatListState extends ConsumerState<ChatList> {
             itemCount: chatData!.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
+
+              /// We Want to update the status only if the user not seen the message
+              /// and if the receiver open the chat
+              if (!chatData[index].isSeen &&
+                  chatData[index].receiverId ==
+                      FirebaseAuth.instance.currentUser!.uid) {
+                ref.read(chatControllerProvider).setSeenStatus(
+                      context: context,
+                      receiverId: widget.receiverId,
+                      messageId: chatData[index].messageId,
+                    );
+              }
+
               if (chatData[index].senderId ==
                   FirebaseAuth.instance.currentUser!.uid) {
                 return MyMessageCard(
@@ -84,6 +97,7 @@ class _ChatListState extends ConsumerState<ChatList> {
                     isMe: true,
                     messageEnum: chatData[index].type,
                   ),
+                  isSeen: chatData[index].isSeen,
                 );
               }
               return SenderMessageCard(

@@ -14,6 +14,7 @@ class MyMessageCard extends ConsumerWidget {
   final String repliedText;
   final String username;
   final MessageEnum repliedMessageType;
+  final bool isSeen;
 
   const MyMessageCard({
     Key? key,
@@ -24,6 +25,7 @@ class MyMessageCard extends ConsumerWidget {
     required this.repliedMessageType,
     required this.repliedText,
     required this.onSwipeLeft,
+    required this.isSeen,
   }) : super(key: key);
 
   @override
@@ -51,15 +53,23 @@ class MyMessageCard extends ConsumerWidget {
               children: [
                 /// Replied Message Preview
                 Container(
-                  height: repliedMessageType != MessageEnum.text ? 50 : repliedText.isNotEmpty? null : 0,
-                  width: repliedMessageType != MessageEnum.text ? 100 : repliedText.isNotEmpty? null : 0,
-                  margin:
-                  EdgeInsets.symmetric(horizontal: 5, vertical:  repliedText.isNotEmpty? 5 : 0),
-                  padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                  height: repliedMessageType != MessageEnum.text
+                      ? 50
+                      : repliedText.isNotEmpty
+                          ? null
+                          : 0,
+                  width: repliedMessageType != MessageEnum.text
+                      ? 100
+                      : repliedText.isNotEmpty
+                          ? null
+                          : 0,
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 5, vertical: repliedText.isNotEmpty ? 5 : 0),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   decoration: BoxDecoration(
-                    color: AppColors.appBarColor.withOpacity(0.5),
-                    borderRadius: const BorderRadius.all(Radius.circular(5))
-                  ),
+                      color: AppColors.appBarColor.withOpacity(0.5),
+                      borderRadius: const BorderRadius.all(Radius.circular(5))),
                   child: DisplayedMessage(
                     message: repliedText,
                     messageType: repliedMessageType,
@@ -80,10 +90,10 @@ class MyMessageCard extends ConsumerWidget {
                         color: Colors.white60,
                       ),
                     ),
-                    const Icon(
-                      Icons.done_all,
+                    Icon(
+                      isSeen ? Icons.done_all : Icons.done,
                       size: 20,
-                      color: Colors.white60,
+                      color: isSeen ? Colors.blue : Colors.white60,
                     ),
                   ],
                 ),

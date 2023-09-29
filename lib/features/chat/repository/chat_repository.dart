@@ -96,7 +96,8 @@ class ChatRepository {
           : messageReply.isMe
               ? senderUsername
               : receiverUsername,
-      repliedMessageType: messageReply == null ? MessageEnum.text : messageReply.messageEnum,
+      repliedMessageType:
+          messageReply == null ? MessageEnum.text : messageReply.messageEnum,
     );
     await firestore
         .collection("users")
@@ -259,5 +260,33 @@ class ChatRepository {
       },
     );
     return chatStreamList;
+  }
+
+  Future<void> setSeenStatus(
+      {required BuildContext context,
+      required String receiverId,
+      required String messageId}) async {
+    try {
+      await firestore
+          .collection("users")
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection("chats")
+          .doc(receiverId)
+          .collection("messages")
+          .doc(messageId)
+          .update({"isSeen": true});
+
+      await firestore
+          .collection("users")
+          .doc(receiverId)
+          .collection("chats")
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection("messages")
+          .doc(messageId)
+          .update({"isSeen": true});
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+      rethrow;
+    }
   }
 }

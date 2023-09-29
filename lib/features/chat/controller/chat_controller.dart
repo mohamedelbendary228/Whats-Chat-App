@@ -32,6 +32,7 @@ class ChatController {
       formattedGIFUrl = "${AppConstants.GIPHY_URL_SCHEME}$gifName/200.gif";
     }
     final messageReply = ref.read(messageReplyProvider);
+
     /// we use ref.read(userDataProvider) to get the current user data
     ref.read(userDataProvider).whenData(
       (userData) async {
@@ -52,6 +53,7 @@ class ChatController {
     return chatRepository.getChatStream(receiverId);
   }
 
+
   Future<void> sendFileMessage({
     required BuildContext context,
     required File file,
@@ -59,6 +61,7 @@ class ChatController {
     required MessageEnum messageEnum,
   }) async {
     final messageReply = ref.read(messageReplyProvider);
+
     /// we use ref.read(userDataProvider) to get the current user data
     ref.read(userDataProvider).whenData(
       (userData) async {
@@ -73,5 +76,14 @@ class ChatController {
         );
       },
     );
+  }
+
+
+  Future<void> setSeenStatus(
+      {required BuildContext context,
+      required String receiverId,
+      required String messageId}) async {
+    await chatRepository.setSeenStatus(
+        context: context, receiverId: receiverId, messageId: messageId);
   }
 }
