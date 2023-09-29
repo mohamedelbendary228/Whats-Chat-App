@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/colors.dart';
+import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
 import 'package:whats_chat_app/features/chats_contacts/screens/chats_contacts_screen.dart';
+import 'package:whats_chat_app/features/status/screens/status_contacts_screen.dart';
 import 'package:whats_chat_app/router.dart';
 
 class MainHomeScreen extends ConsumerStatefulWidget {
@@ -13,13 +17,14 @@ class MainHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _MainHomeScreenState extends ConsumerState<MainHomeScreen>
-    with WidgetsBindingObserver {
-
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+  late TabController tabController;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    tabController = TabController(length: 3, vsync: this);
   }
 
   /// Change online state based on the AppLifeCycle
@@ -46,68 +51,82 @@ class _MainHomeScreenState extends ConsumerState<MainHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: AppColors.appBarColor,
-          centerTitle: false,
-          title: const Text(
-            'WhatsAppChat',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.search, color: Colors.grey),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.more_vert, color: Colors.grey),
-              onPressed: () {},
-            ),
-          ],
-          bottom: const TabBar(
-            indicatorColor: AppColors.tabColor,
-            indicatorWeight: 4,
-            labelColor: AppColors.tabColor,
-            unselectedLabelColor: Colors.grey,
-            labelStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-            tabs: [
-              Tab(
-                text: 'CHATS',
-              ),
-              Tab(
-                text: 'STATUS',
-              ),
-              Tab(
-                text: 'CALLS',
-              ),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppColors.appBarColor,
+        centerTitle: false,
+        title: const Text(
+          'WhatsAppChat',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.grey,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        body: TabBarView(
-          children: [
-            const ChatsContactsScreen(),
-            Container(),
-            Container(),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.grey),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.more_vert, color: Colors.grey),
+            onPressed: () {},
+          ),
+        ],
+        bottom: TabBar(
+          controller: tabController,
+          indicatorColor: AppColors.tabColor,
+          indicatorWeight: 4,
+          labelColor: AppColors.tabColor,
+          unselectedLabelColor: Colors.grey,
+          labelStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+          tabs: const [
+            Tab(
+              text: 'CHATS',
+            ),
+            Tab(
+              text: 'STATUS',
+            ),
+            Tab(
+              text: 'CALLS',
+            ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
+      ),
+      body: TabBarView(
+        controller: tabController,
+        children: [
+          const ChatsContactsScreen(),
+          const StatusContactsScreen(),
+          Container(),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          if (tabController.index == 0) {
             Navigator.of(context).pushNamed(RoutesNames.SELECT_CONTACT);
-          },
-          backgroundColor: AppColors.tabColor,
-          child: const Icon(
-            Icons.comment,
-            color: Colors.white,
-          ),
+          } else {
+            File? pickedImage = await pickImageFromGallery(context);
+            if (pickedImage != null) {
+              if (mounted) {
+                await Navigator.of(context).pushNamed(
+                    RoutesNames.CONFIRM_STATUS_SCREEN,
+                    arguments: pickedImage);
+              }
+            }
+          }
+        },
+        backgroundColor: AppColors.tabColor,
+        child: Icon(
+          tabController.index == 0
+              ? Icons.comment
+              : tabController.index == 1
+                  ? Icons.camera_alt
+                  : Icons.call,
+          color: Colors.white,
         ),
       ),
     );

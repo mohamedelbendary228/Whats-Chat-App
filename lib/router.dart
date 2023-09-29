@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whats_chat_app/core/widgets/error_screen.dart';
@@ -7,6 +9,7 @@ import 'package:whats_chat_app/features/auth/screens/user_info_screen.dart';
 import 'package:whats_chat_app/features/landing/screens/landing_screen.dart';
 import 'package:whats_chat_app/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:whats_chat_app/features/chat/screens/chat_screen.dart';
+import 'package:whats_chat_app/features/status/screens/confirm_status_screen.dart';
 
 class RoutesNames {
   RoutesNames._();
@@ -17,6 +20,7 @@ class RoutesNames {
   static const String USER_INFO_SCREEN = "/user_info_screen";
   static const String SELECT_CONTACT = "/select_contact";
   static const String CHAT_SCREEN = "/chat_screen";
+  static const String CONFIRM_STATUS_SCREEN = "/confirm_status_screen";
 }
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -48,6 +52,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       String uid = args["uid"];
       return MaterialPageRoute(
         builder: (context) => ChatScreen(name: name, uid: uid),
+      );
+    case RoutesNames.CONFIRM_STATUS_SCREEN:
+      File file = settings.arguments as File;
+      return MaterialPageRoute(
+        builder: (context) => ConfirmStatusScreen(file: file),
       );
     default:
       return MaterialPageRoute(
