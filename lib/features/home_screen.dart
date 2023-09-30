@@ -120,12 +120,8 @@ class _MainHomeScreenState extends ConsumerState<MainHomeScreen>
           }
         },
         backgroundColor: AppColors.tabColor,
-        child: Icon(
-          tabController.index == 0
-              ? Icons.comment
-              : tabController.index == 1
-                  ? Icons.camera_alt
-                  : Icons.call,
+        child: const Icon(
+          Icons.comment,
           color: Colors.white,
         ),
       ),
