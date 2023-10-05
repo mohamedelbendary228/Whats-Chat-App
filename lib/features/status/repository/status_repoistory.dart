@@ -35,37 +35,52 @@ class StatusRepository {
 
       final uid = firebaseAuth.currentUser!.uid;
 
+      /// upload the file to the FirebaseStorage and get the url to set it in FireStore
       final imageUrl = await ref
           .read(commonFirebaseStorageRepositoryProvider)
           .storeFileToFirebase("/status/$statusId/$uid", statusImage);
 
+      /// initialize a list of contacts and add our device contacts into it
+      /// we will use this list to determine who can see the status
       List<Contact> contacts = [];
-
       if (await FlutterContacts.requestPermission()) {
         contacts = await FlutterContacts.getContacts(
             withProperties: true, deduplicateProperties: false);
       }
 
+      /// initialize a list of users id to determine who can see the status
+      /// by looping through every contact in [contacts] and check if that contact phone number
+      /// exist in our fireStore collection, if it exists we will add its id to the following [uidsWhoCanSeeStatus] list
       List<String> uidsWhoCanSeeStatus = [];
-
       for (int i = 0; i < contacts.length; i++) {
         final userData = await firestore
             .collection("user")
             .where('phoneNumber',
                 isEqualTo: contacts[i].phones[0].number.replaceAll(' ', ''))
             .get();
+
+        /// note: we access the first element in [docs] because we fetch one user snapshot every loop
         if (userData.docs.isNotEmpty) {
           var user = UserModel.fromJson(userData.docs[0].data());
           uidsWhoCanSeeStatus.add(user.uid);
         }
       }
 
+      /// initialize list of [statusImagesUrls] to uses it in [StatusModel]
+      /// first we want to check if the statuses already exist or not, so we will get [statusesSnapShot] from fireStore
       List<String> statusImagesUrls = [];
       final statusesSnapShot = await firestore
           .collection("status")
           .where('uid', isEqualTo: firebaseAuth.currentUser!.uid)
           .get();
 
+      /// if [statusesSnapShot] exist we convert it to [statusModel] and set the [statusImagesUrls] list
+      /// to [statusModel.statusImagesUrls] list that coming from fireStore and also add [imageUrl] to it.
+      /// then update the doc with the new [statusImagesUrls] list.
+
+      /// if the [statusesSnapShot] not exist which means the user add his status for the first time,
+      /// we just set the [imageUrl] to the [statusImagesUrls] list, after that we initialize [status] model and
+      /// set a new collection for the status
       if (statusesSnapShot.docs.isNotEmpty) {
         StatusModel statusModel =
             StatusModel.fromMap(statusesSnapShot.docs[0].data());
@@ -93,7 +108,6 @@ class StatusRepository {
       );
 
       await firestore.collection("status").doc(statusId).set(status.toJson());
-      
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
       rethrow;
