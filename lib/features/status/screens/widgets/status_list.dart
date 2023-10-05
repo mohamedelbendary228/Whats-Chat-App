@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/models/status_model.dart';
+import 'package:whats_chat_app/router.dart';
 
 class StatusList extends StatelessWidget {
   final StatusModel status;
@@ -12,7 +13,9 @@ class StatusList extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pushNamed(RoutesNames.STATUS_VIEWER_SCREEN, arguments: status);
+          },
           child: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ListTile(

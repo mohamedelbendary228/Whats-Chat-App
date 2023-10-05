@@ -10,6 +10,8 @@ import 'package:whats_chat_app/features/landing/screens/landing_screen.dart';
 import 'package:whats_chat_app/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:whats_chat_app/features/chat/screens/chat_screen.dart';
 import 'package:whats_chat_app/features/status/screens/confirm_status_screen.dart';
+import 'package:whats_chat_app/features/status/screens/status_viewer_screen.dart';
+import 'package:whats_chat_app/models/status_model.dart';
 
 class RoutesNames {
   RoutesNames._();
@@ -21,6 +23,7 @@ class RoutesNames {
   static const String SELECT_CONTACT = "/select_contact";
   static const String CHAT_SCREEN = "/chat_screen";
   static const String CONFIRM_STATUS_SCREEN = "/confirm_status_screen";
+  static const String STATUS_VIEWER_SCREEN = "/status_viewer_screen";
 }
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -57,6 +60,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       File file = settings.arguments as File;
       return MaterialPageRoute(
         builder: (context) => ConfirmStatusScreen(file: file),
+      );
+    case RoutesNames.STATUS_VIEWER_SCREEN:
+      StatusModel statusModel = settings.arguments as StatusModel;
+      return MaterialPageRoute(
+        builder: (context) => StatusViewerScreen(status: statusModel),
       );
     default:
       return MaterialPageRoute(
