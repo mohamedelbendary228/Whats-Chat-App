@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
 import 'package:whats_chat_app/features/status/repository/status_repoistory.dart';
+import 'package:whats_chat_app/models/status_model.dart';
 
 class StatusController {
   final StatusRepository statusRepository;
@@ -20,5 +21,10 @@ class StatusController {
           statusImage: file,
           context: context);
     });
+  }
+
+  Future<List<StatusModel>> getStatus(BuildContext context) async {
+    List<StatusModel> statusList = await statusRepository.getStatus(context);
+    return statusList;
   }
 }
