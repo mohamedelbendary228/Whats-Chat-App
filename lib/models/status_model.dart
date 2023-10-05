@@ -32,7 +32,7 @@ class StatusModel {
     };
   }
 
-  factory StatusModel.fromMap(Map<String, dynamic> json) {
+  factory StatusModel.fromJson(Map<String, dynamic> json) {
     return StatusModel(
       uid: json['uid'] ?? '',
       username: json['username'] ?? '',

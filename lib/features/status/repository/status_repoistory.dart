@@ -44,8 +44,7 @@ class StatusRepository {
       /// we will use this list to determine who can see the status
       List<Contact> contacts = [];
       if (await FlutterContacts.requestPermission()) {
-        contacts = await FlutterContacts.getContacts(
-            withProperties: true, deduplicateProperties: false);
+        contacts = await FlutterContacts.getContacts(withProperties: true);
       }
 
       /// initialize a list of users id to determine who can see the status
@@ -54,7 +53,7 @@ class StatusRepository {
       List<String> uidsWhoCanSeeStatus = [];
       for (int i = 0; i < contacts.length; i++) {
         final userData = await firestore
-            .collection("user")
+            .collection("users")
             .where('phoneNumber',
                 isEqualTo: contacts[i].phones[0].number.replaceAll(' ', ''))
             .get();
@@ -65,6 +64,8 @@ class StatusRepository {
           uidsWhoCanSeeStatus.add(user.uid);
         }
       }
+
+      debugPrint("uidsWhoCanSeeStatusssss $uidsWhoCanSeeStatus");
 
       /// initialize list of [statusImagesUrls] to uses it in [StatusModel]
       /// first we want to check if the statuses already exist or not, so we will get [statusesSnapShot] from fireStore
@@ -83,7 +84,7 @@ class StatusRepository {
       /// set a new collection for the status
       if (statusesSnapShot.docs.isNotEmpty) {
         StatusModel statusModel =
-            StatusModel.fromMap(statusesSnapShot.docs[0].data());
+            StatusModel.fromJson(statusesSnapShot.docs[0].data());
         statusImagesUrls = statusModel.statusImagesUrls;
         statusImagesUrls.add(imageUrl);
         await firestore
@@ -112,5 +113,49 @@ class StatusRepository {
       showSnackBar(context: context, content: e.toString());
       rethrow;
     }
+  }
+
+  Future<List<StatusModel>> getStatus(BuildContext context) async {
+    List<StatusModel> statusData = [];
+    try {
+      List<Contact> contacts = [];
+      if (await FlutterContacts.requestPermission()) {
+        contacts = await FlutterContacts.getContacts(withProperties: true);
+      }
+
+      List<QueryDocumentSnapshot<Map<String, dynamic>>>
+          contactsStatusesSnapshot = [];
+
+      /// looping through our device contacts and then
+      /// gets all the status of the contacts registered in fireStore
+      for (int i = 0; i < contacts.length; i++) {
+        final statusesSnapShot = await firestore
+            .collection("status")
+            .where('phoneNumber',
+                isEqualTo: contacts[i].phones[0].number.replaceAll(' ', ''))
+            .where("createdAt",
+                isGreaterThan: DateTime.now()
+                    .subtract(const Duration(hours: 24))
+                    .millisecondsSinceEpoch)
+            .get();
+
+        contactsStatusesSnapshot.addAll(statusesSnapShot.docs);
+      }
+
+      /// looping through the [contactsStatusesSnapshot] to get the status of every contact on firestore
+      /// and if the status contains out uid then add it to [statusData] list
+      for (var tempData in contactsStatusesSnapshot) {
+        StatusModel tempStatus = StatusModel.fromJson(tempData.data());
+        if (tempStatus.whoCanSeeStatus
+            .contains(firebaseAuth.currentUser!.uid)) {
+          statusData.add(tempStatus);
+        }
+      }
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+      rethrow;
+    }
+
+    return statusData;
   }
 }
