@@ -19,6 +19,7 @@ class MainHomeScreen extends ConsumerStatefulWidget {
 class _MainHomeScreenState extends ConsumerState<MainHomeScreen>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   late TabController tabController;
+  Widget floatingButton = const Icon(Icons.comment);
 
   @override
   void initState() {
@@ -47,6 +48,16 @@ class _MainHomeScreenState extends ConsumerState<MainHomeScreen>
   void dispose() {
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
+  }
+
+  void setFloatingButton(int index) {
+    debugPrint("Indexxx $index");
+    if (index == 0) {
+      floatingButton = const Icon(Icons.comment);
+    } else if (index == 1) {
+      floatingButton = const Icon(Icons.camera_alt);
+    }
+    setState(() {});
   }
 
   @override
@@ -80,6 +91,7 @@ class _MainHomeScreenState extends ConsumerState<MainHomeScreen>
           indicatorWeight: 4,
           labelColor: AppColors.tabColor,
           unselectedLabelColor: Colors.grey,
+          onTap: setFloatingButton,
           labelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -120,10 +132,7 @@ class _MainHomeScreenState extends ConsumerState<MainHomeScreen>
           }
         },
         backgroundColor: AppColors.tabColor,
-        child: const Icon(
-          Icons.comment,
-          color: Colors.white,
-        ),
+        child: floatingButton,
       ),
     );
   }
