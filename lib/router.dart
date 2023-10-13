@@ -6,6 +6,7 @@ import 'package:whats_chat_app/core/widgets/error_screen.dart';
 import 'package:whats_chat_app/features/auth/screens/login_screen.dart';
 import 'package:whats_chat_app/features/auth/screens/otp_screen.dart';
 import 'package:whats_chat_app/features/auth/screens/user_info_screen.dart';
+import 'package:whats_chat_app/features/group_chat/screens/create_group_chat_screen.dart';
 import 'package:whats_chat_app/features/landing/screens/landing_screen.dart';
 import 'package:whats_chat_app/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:whats_chat_app/features/chat/screens/chat_screen.dart';
@@ -24,6 +25,7 @@ class RoutesNames {
   static const String CHAT_SCREEN = "/chat_screen";
   static const String CONFIRM_STATUS_SCREEN = "/confirm_status_screen";
   static const String STATUS_VIEWER_SCREEN = "/status_viewer_screen";
+  static const String CREATE_GROUP_CHAT_SCREEN = "/create_group_chat_screen";
 }
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -65,6 +67,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       StatusModel statusModel = settings.arguments as StatusModel;
       return MaterialPageRoute(
         builder: (context) => StatusViewerScreen(status: statusModel),
+      );
+    case RoutesNames.CREATE_GROUP_CHAT_SCREEN:
+      return MaterialPageRoute(
+        builder: (context) => const CreateGroupChatScreen(),
       );
     default:
       return MaterialPageRoute(

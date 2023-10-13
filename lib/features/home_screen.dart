@@ -80,9 +80,27 @@ class _MainHomeScreenState extends ConsumerState<MainHomeScreen>
             icon: const Icon(Icons.search, color: Colors.grey),
             onPressed: () {},
           ),
-          IconButton(
-            icon: const Icon(Icons.more_vert, color: Colors.grey),
-            onPressed: () {},
+          PopupMenuButton(
+            icon: const Icon(
+              Icons.more_vert,
+              color: Colors.grey,
+            ),
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  child: const Text(
+                    'Create Group',
+                  ),
+                  onTap: () {
+                    /// using [Future] here because the [onTap] of the [PopupMenuItem] calls pop function
+                    /// to dismiss itself so when you push another route it will dismiss it immediately
+                    /// and Future here solve this problem
+                    Future(() => Navigator.of(context)
+                        .pushNamed(RoutesNames.CREATE_GROUP_CHAT_SCREEN));
+                  },
+                )
+              ];
+            },
           ),
         ],
         bottom: TabBar(
