@@ -22,6 +22,10 @@ class _CreateGroupChatScreenState extends ConsumerState<CreateGroupChatScreen> {
     setState(() {});
   }
 
+  void createGroup() {
+
+  }
+
   @override
   void dispose() {
     super.dispose();
