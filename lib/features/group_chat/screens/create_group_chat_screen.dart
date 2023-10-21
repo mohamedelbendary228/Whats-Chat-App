@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
+import 'package:whats_chat_app/features/group_chat/controller/group_chat_controller.dart';
 import 'package:whats_chat_app/features/group_chat/widgets/select_group_contacts.dart';
 
 class CreateGroupChatScreen extends ConsumerStatefulWidget {
@@ -22,9 +23,17 @@ class _CreateGroupChatScreenState extends ConsumerState<CreateGroupChatScreen> {
     setState(() {});
   }
 
-  void createGroup() {
-    if(groupNameController.text.trim().isNotEmpty && image != null) {
-      debugPrint("Selected Contacts ${ref.read(selectedGroupContactsProvider)}");
+  Future<void> createGroup() async {
+    if (groupNameController.text.trim().isNotEmpty && image != null) {
+      await ref.read(groupChatControllerProvider).createGroupChat(
+          context: context,
+          groupImage: image!,
+          groupName: groupNameController.text.trim(),
+          selectedContacts: ref.read(selectedGroupContactsProvider));
+      ref.read(selectedGroupContactsProvider.notifier).update((state) => []);
+      if (mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 

@@ -10,12 +10,21 @@ import 'package:whats_chat_app/core/repository/common_firbase_sotrage_repository
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/models/group_chat_model.dart';
 
-class CreateGroupChatRepository {
+final groupChatRepositoryProvider = Provider<GroupChatRepository>(
+  (ref) {
+    return GroupChatRepository(
+        firestore: FirebaseFirestore.instance,
+        firebaseAuth: FirebaseAuth.instance,
+        ref: ref);
+  },
+);
+
+class GroupChatRepository {
   final FirebaseFirestore firestore;
   final FirebaseAuth firebaseAuth;
   final ProviderRef ref;
 
-  CreateGroupChatRepository({
+  GroupChatRepository({
     required this.firestore,
     required this.firebaseAuth,
     required this.ref,
@@ -36,7 +45,7 @@ class CreateGroupChatRepository {
                 isEqualTo:
                     selectedContacts[i].phones[0].number.replaceAll(' ', ''))
             .get();
-        if (userCollection.docs[0].exists) {
+        if (userCollection.docs.isNotEmpty && userCollection.docs[0].exists) {
           uids.add(userCollection.docs[0].data()["uid"]);
         }
       }
