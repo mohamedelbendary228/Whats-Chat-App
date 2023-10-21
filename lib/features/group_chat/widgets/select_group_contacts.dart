@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/widgets/error_screen.dart';
-import 'package:whats_chat_app/core/widgets/loading_screen.dart';
-import 'package:whats_chat_app/features/group_chat/provider/group_chat_provider.dart';
 import 'package:whats_chat_app/features/select_contacts/controller/select_contacts_controller.dart';
-import 'package:whats_chat_app/features/select_contacts/providers/select_contacs_provider.dart';
+
+
+
+/// A state provider to update list of selected contacts
+final selectedGroupContactsProvider = StateProvider<List<Contact>>((ref) => []);
 
 class SelectGroupContacts extends ConsumerStatefulWidget {
   const SelectGroupContacts({super.key});
@@ -50,10 +51,7 @@ class _SelectGroupContactsState extends ConsumerState<SelectGroupContacts> {
                                 fontSize: 18, fontWeight: FontWeight.normal),
                           ),
                           trailing: selectedContactsIndexList.contains(index)
-                              ? IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.done),
-                                )
+                              ? const Icon(Icons.done)
                               : null,
                         ),
                       ),

@@ -23,7 +23,9 @@ class _CreateGroupChatScreenState extends ConsumerState<CreateGroupChatScreen> {
   }
 
   void createGroup() {
-
+    if(groupNameController.text.trim().isNotEmpty && image != null) {
+      debugPrint("Selected Contacts ${ref.read(selectedGroupContactsProvider)}");
+    }
   }
 
   @override
@@ -95,7 +97,7 @@ class _CreateGroupChatScreenState extends ConsumerState<CreateGroupChatScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: createGroup,
         backgroundColor: AppColors.tabColor,
         child: const Icon(
           Icons.done,
