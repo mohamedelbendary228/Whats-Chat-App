@@ -16,8 +16,10 @@ import 'package:whats_chat_app/features/chat/screens/widgets/message_reply_previ
 
 class BottomChatTextField extends ConsumerStatefulWidget {
   final String receiverId;
+  final bool isGroupChat;
 
-  const BottomChatTextField({super.key, required this.receiverId});
+  const BottomChatTextField(
+      {super.key, required this.receiverId, required this.isGroupChat});
 
   @override
   ConsumerState createState() => _BottomChatTextFieldState();
@@ -63,14 +65,13 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
             text: messageController.text.trim(),
             receiverId: widget.receiverId,
             isGifMessage: false,
+            isGroupChat: widget.isGroupChat,
           );
       messageController.clear();
       setState(() {
         isSendButtonVisible = false;
       });
-      ref
-          .read(messageReplyProvider.notifier)
-          .update((state) => null);
+      ref.read(messageReplyProvider.notifier).update((state) => null);
     } else {
       final tempDir = await getTemporaryDirectory();
       String path = "${tempDir.path}/WhatsChatSound.aac";
@@ -91,10 +92,12 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
 
   Future<void> sendFileMessage(File file, MessageEnum messageEnum) async {
     await ref.read(chatControllerProvider).sendFileMessage(
-        context: context,
-        file: file,
-        receiverId: widget.receiverId,
-        messageEnum: messageEnum);
+          context: context,
+          file: file,
+          receiverId: widget.receiverId,
+          messageEnum: messageEnum,
+          isGroupChat: widget.isGroupChat,
+        );
   }
 
   void toggleSendButton(String val) {
@@ -133,6 +136,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
               isGifMessage: true,
               gifUrl: gif.url,
               receiverId: widget.receiverId,
+              isGroupChat: widget.isGroupChat,
             );
       }
     }

@@ -1,5 +1,6 @@
 import 'package:whats_chat_app/features/chats_contacts/repository/chats_contact_repository.dart';
 import 'package:whats_chat_app/models/chat_contact_model.dart';
+import 'package:whats_chat_app/models/group_chat_model.dart';
 
 class ChatsContactsController {
   final ChatContactRepository chatContactRepository;
@@ -8,5 +9,9 @@ class ChatsContactsController {
 
   Stream<List<ChatContact>> getChatContacts() {
     return chatContactRepository.getChatContacts();
+  }
+
+  Stream<List<GroupModel>> getChatGroups() {
+    return chatContactRepository.getChatGroups();
   }
 }

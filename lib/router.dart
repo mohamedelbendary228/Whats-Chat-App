@@ -55,8 +55,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final args = settings.arguments as Map<String, dynamic>;
       String name = args["name"];
       String uid = args["uid"];
+      bool isGroupChat = args["isGroup"];
       return MaterialPageRoute(
-        builder: (context) => ChatScreen(name: name, uid: uid),
+        builder: (context) => ChatScreen(name: name, uid: uid, isGroupChat: isGroupChat),
       );
     case RoutesNames.CONFIRM_STATUS_SCREEN:
       File file = settings.arguments as File;

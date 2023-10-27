@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:whats_chat_app/models/chat_contact_model.dart';
+import 'package:whats_chat_app/models/group_chat_model.dart';
 import 'package:whats_chat_app/models/user_model.dart';
 
 class ChatContactRepository {
@@ -46,5 +47,25 @@ class ChatContactRepository {
     );
 
     return chatContactsStream;
+  }
+
+  Stream<List<GroupModel>> getChatGroups() {
+    final chatGroupStream = firestore.collection("groups").snapshots().map(
+      (event) {
+        List<GroupModel> chatGroupsList = [];
+        for (var doc in event.docs) {
+          // parse the to GroupModel Object
+          GroupModel groupModel = GroupModel.fromJson(doc.data());
+          if (groupModel.membersUid.contains(auth.currentUser!.uid)) {
+            chatGroupsList.add(groupModel);
+          }
+
+          // Add the chat group info from the parsed model above
+        }
+        return chatGroupsList;
+      },
+    );
+
+    return chatGroupStream;
   }
 }

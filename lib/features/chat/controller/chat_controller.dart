@@ -21,6 +21,7 @@ class ChatController {
     required String text,
     required String receiverId,
     required isGifMessage,
+    required bool isGroupChat,
     String? gifUrl,
   }) async {
     String formattedGIFUrl = "";
@@ -44,6 +45,7 @@ class ChatController {
           gifUrl: formattedGIFUrl,
           isGifMessage: isGifMessage,
           messageReply: messageReply,
+          isGroupChat: isGroupChat,
         );
       },
     );
@@ -53,12 +55,16 @@ class ChatController {
     return chatRepository.getChatStream(receiverId);
   }
 
+  Stream<List<MessageModel>> getGroupChatStream(String groupId) {
+    return chatRepository.getGroupChatStream(groupId);
+  }
 
   Future<void> sendFileMessage({
     required BuildContext context,
     required File file,
     required receiverId,
     required MessageEnum messageEnum,
+    required bool isGroupChat,
   }) async {
     final messageReply = ref.read(messageReplyProvider);
 
@@ -73,11 +79,11 @@ class ChatController {
           ref: ref,
           messageEnum: messageEnum,
           messageReply: messageReply,
+          isGroupChat: isGroupChat,
         );
       },
     );
   }
-
 
   Future<void> setSeenStatus(
       {required BuildContext context,

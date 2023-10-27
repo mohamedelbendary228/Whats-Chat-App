@@ -9,8 +9,13 @@ import 'package:whats_chat_app/models/user_model.dart';
 class ChatScreen extends ConsumerWidget {
   final String name;
   final String uid;
+  final bool isGroupChat;
 
-  const ChatScreen({Key? key, required this.name, required this.uid})
+  const ChatScreen(
+      {Key? key,
+      required this.name,
+      required this.uid,
+      required this.isGroupChat})
       : super(key: key);
 
   @override
@@ -21,27 +26,29 @@ class ChatScreen extends ConsumerWidget {
         backgroundColor: AppColors.appBarColor,
 
         /// Name and online statue
-        title: StreamBuilder<UserModel>(
-          stream: ref.read(authControllerProvider).userData(uid),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox.shrink();
-            }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                ),
-                Text(
-                  snapshot.data!.isOnline ? "online" : "offline",
-                  style:
-                      const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
-                ),
-              ],
-            );
-          },
-        ),
+        title: isGroupChat
+            ? Text(name)
+            : StreamBuilder<UserModel>(
+                stream: ref.read(authControllerProvider).userData(uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox.shrink();
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                      ),
+                      Text(
+                        snapshot.data!.isOnline ? "online" : "offline",
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.normal),
+                      ),
+                    ],
+                  );
+                },
+              ),
         centerTitle: false,
         actions: [
           IconButton(
@@ -61,9 +68,9 @@ class ChatScreen extends ConsumerWidget {
       body: Column(
         children: [
           Expanded(
-            child: ChatList(receiverId: uid),
+            child: ChatList(receiverId: uid, isGroupChat: isGroupChat),
           ),
-          BottomChatTextField(receiverId: uid),
+          BottomChatTextField(receiverId: uid, isGroupChat: isGroupChat),
         ],
       ),
     );

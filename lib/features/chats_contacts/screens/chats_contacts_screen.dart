@@ -7,6 +7,7 @@ import 'package:whats_chat_app/features/chats_contacts/screens/widgets/chat_cont
 import 'package:whats_chat_app/info.dart';
 import 'package:whats_chat_app/features/chat/screens/chat_screen.dart';
 import 'package:whats_chat_app/models/chat_contact_model.dart';
+import 'package:whats_chat_app/models/group_chat_model.dart';
 import 'package:whats_chat_app/router.dart';
 
 class ChatsContactsScreen extends ConsumerWidget {
@@ -16,32 +17,76 @@ class ChatsContactsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
-      child: StreamBuilder<List<ChatContact>>(
-          stream: ref.watch(chatsContactsControllerProvider).getChatContacts(),
-          builder: (context, snapshot) {
-            if(snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            final chatContact = snapshot.data;
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: chatContact!.length,
-              itemBuilder: (context, index) {
-                return ChatContactListTile(
-                  name: chatContact[index].name,
-                  lastMessage: chatContact[index].lastMessage,
-                  profilePicUrl: chatContact[index].profilePic,
-                  timeSent: DateFormat.jmv().format(chatContact[index].timeSent),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(RoutesNames.CHAT_SCREEN, arguments: {
-                      "name": chatContact[index].name,
-                      "uid": chatContact[index].contactId,
-                    });
-                  },
-                );
-              },
-            );
-          }),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            /// group chat list
+            StreamBuilder<List<GroupModel>>(
+                stream:
+                    ref.watch(chatsContactsControllerProvider).getChatGroups(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: SizedBox());
+                  }
+                  final groupData = snapshot.data;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: groupData!.length,
+                    itemBuilder: (context, index) {
+                      return ChatContactListTile(
+                        name: groupData[index].name,
+                        lastMessage: groupData[index].lastMessage,
+                        profilePicUrl: groupData[index].groupPic,
+                        timeSent:
+                            DateFormat.jm().format(groupData[index].timeSent),
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(RoutesNames.CHAT_SCREEN, arguments: {
+                            "name": groupData[index].name,
+                            "uid": groupData[index].groupId,
+                            "isGroup": true,
+                          });
+                        },
+                      );
+                    },
+                  );
+                }),
+
+            /// One to one chat list
+            StreamBuilder<List<ChatContact>>(
+                stream: ref
+                    .watch(chatsContactsControllerProvider)
+                    .getChatContacts(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final chatContact = snapshot.data;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: chatContact!.length,
+                    itemBuilder: (context, index) {
+                      return ChatContactListTile(
+                        name: chatContact[index].name,
+                        lastMessage: chatContact[index].lastMessage,
+                        profilePicUrl: chatContact[index].profilePic,
+                        timeSent:
+                            DateFormat.jm().format(chatContact[index].timeSent),
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(RoutesNames.CHAT_SCREEN, arguments: {
+                            "name": chatContact[index].name,
+                            "uid": chatContact[index].contactId,
+                            "isGroup": false,
+                          });
+                        },
+                      );
+                    },
+                  );
+                }),
+          ],
+        ),
+      ),
     );
   }
 }

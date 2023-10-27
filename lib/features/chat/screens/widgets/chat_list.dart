@@ -13,8 +13,11 @@ import 'package:whats_chat_app/models/message_reply_model.dart';
 
 class ChatList extends ConsumerStatefulWidget {
   final String receiverId;
+  final bool isGroupChat;
 
-  const ChatList({Key? key, required this.receiverId}) : super(key: key);
+  const ChatList(
+      {Key? key, required this.receiverId, required this.isGroupChat})
+      : super(key: key);
 
   @override
   ConsumerState createState() => _ChatListState();
@@ -27,9 +30,12 @@ class _ChatListState extends ConsumerState<ChatList> {
 
   @override
   void initState() {
+    chatStream = widget.isGroupChat
+        ? ref
+        .read(chatControllerProvider)
+        .getGroupChatStream(widget.receiverId)
+        : ref.read(chatControllerProvider).getChatStream(widget.receiverId);
     super.initState();
-    chatStream =
-        ref.read(chatControllerProvider).getChatStream(widget.receiverId);
   }
 
   @override
@@ -70,7 +76,6 @@ class _ChatListState extends ConsumerState<ChatList> {
             itemCount: chatData!.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
-
               /// We Want to update the status only if the user not seen the message
               /// and if the receiver open the chat
               if (!chatData[index].isSeen &&
