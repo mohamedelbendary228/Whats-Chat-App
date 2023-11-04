@@ -13,6 +13,10 @@ import 'package:whats_chat_app/models/message_model.dart';
 import 'package:whats_chat_app/models/message_reply_model.dart';
 import 'package:whats_chat_app/models/user_model.dart';
 
+final chatRepositoryProvider = Provider((ref) => ChatRepository(
+    firestore: FirebaseFirestore.instance,
+    firebaseAuth: FirebaseAuth.instance));
+
 class ChatRepository {
   final FirebaseFirestore firestore;
   final FirebaseAuth firebaseAuth;

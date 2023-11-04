@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
 import 'package:whats_chat_app/colors.dart';
-import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
+import 'package:whats_chat_app/features/auth/controller/auth_controller.dart';
 
 class OTPPage extends ConsumerWidget {
   final String verificationId;

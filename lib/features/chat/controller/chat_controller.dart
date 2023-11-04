@@ -5,10 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/core/constants/app_constants.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
 import 'package:whats_chat_app/core/providers/message_reply_provider.dart';
-import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
+import 'package:whats_chat_app/features/auth/controller/auth_controller.dart';
 import 'package:whats_chat_app/features/chat/repository/chat_repository.dart';
 import 'package:whats_chat_app/models/message_model.dart';
-import 'package:whats_chat_app/models/message_reply_model.dart';
+
+final chatControllerProvider = Provider((ref) {
+  return ChatController(
+      chatRepository: ref.watch(chatRepositoryProvider), ref: ref);
+});
 
 class ChatController {
   final ChatRepository chatRepository;

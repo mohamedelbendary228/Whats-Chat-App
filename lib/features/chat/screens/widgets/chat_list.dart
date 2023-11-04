@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:whats_chat_app/core/enums/message_enum.dart';
 import 'package:whats_chat_app/core/providers/message_reply_provider.dart';
-import 'package:whats_chat_app/features/chat/provider/chat_provider.dart';
+import 'package:whats_chat_app/features/chat/controller/chat_controller.dart';
 import 'package:whats_chat_app/features/chat/screens/widgets/sender_message_card.dart';
 import 'package:whats_chat_app/features/chat/screens/widgets/my_message_card.dart';
 import 'package:whats_chat_app/models/message_model.dart';

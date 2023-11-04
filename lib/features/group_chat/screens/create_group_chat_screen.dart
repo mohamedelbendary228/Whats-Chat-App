@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/features/group_chat/controller/group_chat_controller.dart';
-import 'package:whats_chat_app/features/group_chat/widgets/select_group_contacts.dart';
+import 'package:whats_chat_app/features/group_chat/screens/widgets/select_group_contacts.dart';
 
 class CreateGroupChatScreen extends ConsumerStatefulWidget {
   const CreateGroupChatScreen({super.key});

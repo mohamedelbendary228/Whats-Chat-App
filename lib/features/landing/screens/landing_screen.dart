@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/core/widgets/error_screen.dart';
 import 'package:whats_chat_app/core/widgets/loading_screen.dart';
-import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
+import 'package:whats_chat_app/features/auth/controller/auth_controller.dart';
 import 'package:whats_chat_app/features/home_screen.dart';
 import 'package:whats_chat_app/features/landing/screens/welcome_screen.dart';
 

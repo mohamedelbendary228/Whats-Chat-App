@@ -12,6 +12,14 @@ import 'package:whats_chat_app/features/home_screen.dart';
 import 'package:whats_chat_app/models/user_model.dart';
 import 'package:whats_chat_app/router.dart';
 
+
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  return AuthRepository(
+    auth: FirebaseAuth.instance,
+    firestore: FirebaseFirestore.instance,
+  );
+});
+
 class AuthRepository {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
-import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
+import 'package:whats_chat_app/features/auth/controller/auth_controller.dart';
 import 'package:whats_chat_app/features/chats_contacts/screens/chats_contacts_screen.dart';
 import 'package:whats_chat_app/features/status/screens/status_contacts_screen.dart';
 import 'package:whats_chat_app/router.dart';

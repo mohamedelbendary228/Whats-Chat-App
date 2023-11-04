@@ -2,9 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/models/user_model.dart';
 import 'package:whats_chat_app/router.dart';
+
+final selectContactsRepositoryProvider = Provider((ref) {
+  return SelectContactRepository(firestore: FirebaseFirestore.instance);
+});
 
 class SelectContactRepository {
   final FirebaseFirestore firestore;
@@ -75,6 +80,4 @@ class SelectContactRepository {
       showSnackBar(context: context, content: e.toString());
     }
   }
-
-
 }

@@ -7,7 +7,7 @@ import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/constants/app_constants.dart';
 import 'package:whats_chat_app/core/utils/utils.dart';
 import 'package:whats_chat_app/core/widgets/custom_button.dart';
-import 'package:whats_chat_app/features/auth/provider/auth_provider.dart';
+import 'package:whats_chat_app/features/auth/controller/auth_controller.dart';
 
 class UserInfoPage extends ConsumerStatefulWidget {
   const UserInfoPage({super.key});

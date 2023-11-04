@@ -3,7 +3,7 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_chat_app/core/constants/app_constants.dart';
-import 'package:whats_chat_app/features/select_contacts/providers/select_contacs_provider.dart';
+import 'package:whats_chat_app/features/select_contacts/controller/select_contacts_controller.dart';
 
 class ContactsList extends ConsumerWidget {
   final List<Contact> contacts;

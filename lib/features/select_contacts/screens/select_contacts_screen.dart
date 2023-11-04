@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/colors.dart';
 import 'package:whats_chat_app/core/widgets/loading_screen.dart';
 import 'package:whats_chat_app/features/select_contacts/controller/select_contacts_controller.dart';
-import 'package:whats_chat_app/features/select_contacts/providers/select_contacs_provider.dart';
 import 'package:whats_chat_app/features/select_contacts/screens/widgets/contacts_list.dart';
 
 class SelectContactsPage extends ConsumerWidget {

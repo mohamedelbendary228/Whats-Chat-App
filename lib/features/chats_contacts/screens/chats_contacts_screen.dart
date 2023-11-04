@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:whats_chat_app/colors.dart';
-import 'package:whats_chat_app/features/chats_contacts/provider/chats_contacts_provider.dart';
+import 'package:whats_chat_app/features/chats_contacts/controller/chats_contacts_controller.dart';
 import 'package:whats_chat_app/features/chats_contacts/screens/widgets/chat_contact_list_tile.dart';
-import 'package:whats_chat_app/info.dart';
-import 'package:whats_chat_app/features/chat/screens/chat_screen.dart';
+
 import 'package:whats_chat_app/models/chat_contact_model.dart';
 import 'package:whats_chat_app/models/group_chat_model.dart';
 import 'package:whats_chat_app/router.dart';
