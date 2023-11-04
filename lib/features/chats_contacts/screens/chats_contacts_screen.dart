@@ -43,6 +43,7 @@ class ChatsContactsScreen extends ConsumerWidget {
                             "name": groupData[index].name,
                             "uid": groupData[index].groupId,
                             "isGroup": true,
+                            "profilePic": groupData[index].groupPic,
                           });
                         },
                       );
@@ -71,12 +72,15 @@ class ChatsContactsScreen extends ConsumerWidget {
                         timeSent:
                             DateFormat.jm().format(chatContact[index].timeSent),
                         onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(RoutesNames.CHAT_SCREEN, arguments: {
-                            "name": chatContact[index].name,
-                            "uid": chatContact[index].contactId,
-                            "isGroup": false,
-                          });
+                          Navigator.of(context).pushNamed(
+                            RoutesNames.CHAT_SCREEN,
+                            arguments: {
+                              "name": chatContact[index].name,
+                              "uid": chatContact[index].contactId,
+                              "profilePic": chatContact[index].profilePic,
+                              "isGroup": false,
+                            },
+                          );
                         },
                       );
                     },
