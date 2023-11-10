@@ -20,7 +20,8 @@ class WelcomePage extends StatelessWidget {
               SizedBox(height: 50.h),
               Text(
                 "Welcome to WhatsChatApp",
-                style: TextStyle(fontSize: 27.sp, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: size.height / 13),
               Image.asset(

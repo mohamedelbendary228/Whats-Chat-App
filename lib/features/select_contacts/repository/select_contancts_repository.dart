@@ -62,9 +62,13 @@ class SelectContactRepository {
           isContactFound = true;
           if (context.mounted) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            await Navigator.of(context).pushReplacementNamed(
-                RoutesNames.CHAT_SCREEN,
-                arguments: {"name": userModel.name, "uid": userModel.uid});
+            await Navigator.of(context)
+                .pushReplacementNamed(RoutesNames.CHAT_SCREEN, arguments: {
+              "name": userModel.name,
+              "uid": userModel.uid,
+              "profilePic": userModel.profilePic,
+              "isGroup": false,
+            });
           }
         }
       }
@@ -77,7 +81,10 @@ class SelectContactRepository {
         }
       }
     } catch (e) {
-      showSnackBar(context: context, content: e.toString());
+      if (context.mounted) {
+        showSnackBar(context: context, content: e.toString());
+      }
+      rethrow;
     }
   }
 }

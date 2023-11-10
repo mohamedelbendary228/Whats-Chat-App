@@ -189,73 +189,76 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
         Row(
           children: [
             Expanded(
-              child: TextField(
-                controller: messageController,
-                onChanged: toggleSendButton,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.mobileChatBoxColor,
-                  prefixIcon: SizedBox(
-                    width: size.width * 0.30,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: toggleEmojiPicker,
-                          icon: const Icon(
-                            Icons.emoji_emotions,
-                            color: Colors.grey,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 15, left: 15, right: 10),
+                child: TextField(
+                  controller: messageController,
+                  onChanged: toggleSendButton,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: AppColors.mobileChatBoxColor,
+                    prefixIcon: SizedBox(
+                      width: size.width * 0.30,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: toggleEmojiPicker,
+                            icon: const Icon(
+                              Icons.emoji_emotions,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: selectGIF,
-                          icon: const Icon(
-                            Icons.gif,
-                            color: Colors.grey,
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: selectGIF,
+                            icon: const Icon(
+                              Icons.gif,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  suffixIcon: SizedBox(
-                    width: size.width * 0.30,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: selectImage,
-                          icon: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.grey,
+                    suffixIcon: SizedBox(
+                      width: size.width * 0.30,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: selectImage,
+                            icon: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: selectVideo,
-                          icon: const Icon(
-                            Icons.attach_file,
-                            color: Colors.grey,
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: selectVideo,
+                            icon: const Icon(
+                              Icons.attach_file,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  hintText: 'Type a message!',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                    borderSide: const BorderSide(
-                      width: 0,
-                      style: BorderStyle.none,
+                    hintText: 'Type a message!',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: const BorderSide(
+                        width: 0,
+                        style: BorderStyle.none,
+                      ),
                     ),
+                    contentPadding: const EdgeInsets.all(10),
                   ),
-                  contentPadding: const EdgeInsets.all(10),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 8, right: 5, left: 8),
+              padding: const EdgeInsets.only(bottom: 15, right: 12, left: 8),
               child: CircleAvatar(
                 backgroundColor: AppColors.sendMessageButtonColor,
                 radius: 25,

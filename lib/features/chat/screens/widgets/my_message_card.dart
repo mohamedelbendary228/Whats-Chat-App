@@ -59,7 +59,7 @@ class MyMessageCard extends ConsumerWidget {
                           ? null
                           : 0,
                   width: repliedMessageType != MessageEnum.text
-                      ? 100
+                      ? null
                       : repliedText.isNotEmpty
                           ? null
                           : 0,
