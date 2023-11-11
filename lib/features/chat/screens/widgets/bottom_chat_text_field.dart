@@ -244,7 +244,7 @@ class _BottomChatTextFieldState extends ConsumerState<BottomChatTextField> {
                         ],
                       ),
                     ),
-                    hintText: 'Type a message! ',
+                    hintText: 'Type a message!',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                       borderSide: const BorderSide(

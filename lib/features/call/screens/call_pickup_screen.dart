@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whats_chat_app/features/call/controller/call_controller.dart';
+import 'package:whats_chat_app/features/call/screens/call_screen.dart';
 import 'package:whats_chat_app/models/call_model.dart';
 
 class CallPickupScreen extends ConsumerWidget {
@@ -58,16 +59,16 @@ class CallPickupScreen extends ConsumerWidget {
                         const SizedBox(width: 25),
                         IconButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => CallScreen(
-                            //       channelId: call.callId,
-                            //       call: call,
-                            //       isGroupChat: false,
-                            //     ),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CallScreen(
+                                  channelId: callModel.callId,
+                                  callModel: callModel,
+                                  isGroupChat: false,
+                                ),
+                              ),
+                            );
                           },
                           icon: const Icon(
                             Icons.call,

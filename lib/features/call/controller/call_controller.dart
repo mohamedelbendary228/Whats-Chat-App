@@ -35,7 +35,7 @@ class CallController {
   ) async {
     String callId = const Uuid().v1();
     ref.read(userDataProvider).whenData(
-      (userData) {
+      (userData) async {
         CallModel senderCallData = CallModel(
           callerId: auth.currentUser!.uid,
           callerName: userData!.name,
@@ -58,13 +58,21 @@ class CallController {
           hasDialled: false,
         );
 
-        return callRepository.makeCall(
+        await callRepository.makeCall(
           context,
           senderCallData,
           receiverCallData,
         );
       },
     );
+  }
+
+  Future<void> endCall(
+    String callerId,
+    String receiverId,
+    BuildContext context,
+  ) async {
+    await callRepository.endCall(callerId, receiverId, context);
   }
 
   Stream<DocumentSnapshot> get callStream => callRepository.callStream;
