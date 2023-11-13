@@ -1,16 +1,69 @@
-# whats_chat_app
 
-A new Flutter project.
+# WhatsChat
 
-## Getting Started
+A chat application that contais most of whatsapp features
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Demo
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Insert gif or link to demo
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Features
+
+- Authentication with Phone Number
+- View list of my contacts
+- Select contact to chat with
+- One to one chat 
+- Group chat
+- Text, Voice, GIF, Image and Video messages 
+- Video chat
+- Status feature  
+
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/mohamedelbendary228/Whats-Chat-App.git
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  flutter clean 
+  flutter pub get
+```
+
+Run
+
+```bash
+  flutter run
+```
+
+
+## Resources
+
+- https://docs.flutter.dev/
+- https://firebase.google.com/
+- https://pub.dev/packages/agora_uikit
+- https://docs.agora.io/en/video-calling/reference/release-notes?platform=flutter
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at albendary.com@gmai.com
+
+
+## 🔗 Links
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mohamed-elbendary/)
+[![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/_mohamed_mab)
+
