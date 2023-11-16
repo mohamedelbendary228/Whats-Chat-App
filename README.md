@@ -6,21 +6,27 @@ A chat application that contais most of whatsapp features
 
 ## Demo
 
-Insert gif or link to demo
+https://drive.google.com/file/d/1vThSu9wRcBvVCDQphzxoKiuy5_JCTWur/view?usp=sharing
 
 
 ## Features
 
 - Authentication with Phone Number
 - View list of my contacts
-- Select contact to chat with
-- One to one chat 
+- Select a contact to chat with
+- One-to-one chat 
 - Group chat
 - Text, Voice, GIF, Image and Video messages 
 - Video chat
 - Status feature  
 
+## Tech Stack
 
+- Riverpod
+- Firebase Authentication
+- Firestore Database
+- Firebase Storage
+- **Agora** for video calls
 
 ## Run Locally
 
