@@ -1,7 +1,7 @@
 
 # WhatsChat
 
-A chat application that contais most of whatsapp features
+A chat application which contains most of WhatsApp features
 
 
 ## Demo
