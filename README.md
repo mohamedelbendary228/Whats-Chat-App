@@ -1,7 +1,7 @@
 
 # WhatsChat
 
-A chat application which contains most of WhatsApp features
+A chat application that contains most of WhatsApp's features
 
 
 ## Demo
@@ -11,14 +11,19 @@ https://drive.google.com/file/d/1vThSu9wRcBvVCDQphzxoKiuy5_JCTWur/view?usp=shari
 
 ## Features
 
-- Authentication with Phone Number
-- View list of my contacts
-- Select a contact to chat with
-- One-to-one chat 
-- Group chat
-- Text, Voice, GIF, Image and Video messages 
-- Video chat
-- Status feature  
+- 🔒 Authentication with Phone Number: Ensure secure access to your account.
+
+- 📋 View List of Contacts: Easily manage and navigate through your contacts.
+
+- 📱 Select a Contact to Chat With: Connect seamlessly with friends and colleagues.
+
+- 💬 One-to-One Chat: Enjoy private conversations with a user-friendly interface.
+
+- 👥 Group Chat: Foster collaboration and communication within a group setting.
+
+- 📝 Multimedia Messaging: Express yourself with text, voice, GIFs, images, and videos.
+
+- 🎥 Video Chat: Take your conversations to the next level with face-to-face interactions.
 
 ## Tech Stack
 
